@@ -9,12 +9,15 @@ $statement->execute();
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <link rel="stylesheet" href="../styles.css">
+  <script src="https://kit.fontawesome.com/6ebd7b3ed7.js" crossorigin="anonymous"></script>
+  <title>EPSTS - Table</title>
 </head>
 <body>
-  <h1>List of Persons</h1>
-  <a href="./create.php">Add a new entry.</a>
-  <table>
+  <?php include_once ('../navbar.php'); ?>
+  <button class="topBtn" href="./create.php">Add a new entry.</button>
+  <table class="styled-table">
+    <caption><h1>Table: Persons</h1></caption>
     <thead>
       <tr>
         <td>PersonID</td>
@@ -58,6 +61,6 @@ $statement->execute();
     </tbody>
   </table>
 
-  <a href="history.back()">Return to previous page.</a>
+  <button class="smallBtn" onclick="history.back()">Return to Previous Page</button>
 </body>
 </html>
