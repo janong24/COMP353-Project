@@ -2,6 +2,7 @@
 
 $statement = $conn->prepare('SELECT * FROM comp353.Persons AS Persons');
 $statement->execute();
+$table="persons";
 ?>
 
 <!DOCTYPE html>
@@ -52,7 +53,7 @@ $statement->execute();
         <td><?= $row["Citizenship"] ?></td>
         <td><?= $row["Email"] ?></td>
         <td>
-          <a href="./show.php?PersonID=<?=$row["PersonID"]?>">Show</a>
+          <a href="./show.php?PersonID=<?=$row["PersonID"]?>&table=<?=$table?>">Show</a>
           <a href="./edit.php?PersonID=<?=$row["PersonID"]?>">Edit</a>
           <a href="./delete.php?PersonID=<?=$row["PersonID"]?>">Delete</a>  
         </td>
