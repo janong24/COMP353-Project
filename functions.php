@@ -1,5 +1,6 @@
 <?php require_once 'database.php';
 
+//retrieve all records from a table
 function getColumnNames ($table) {
   $sql = "SHOW COLUMNS FROM ".$table."";
   global $conn;
@@ -7,16 +8,13 @@ function getColumnNames ($table) {
     $statement = $conn->prepare($sql);
     $statement->execute();
     $output = $statement->fetchAll(PDO::FETCH_COLUMN);
-    // $output = array();
-    // while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
-    //   $output[] = $row['COLUMN_NAME'];
-    // }
     return $output;
   } catch (PDOException $e) {
     trigger_error("Error: Failed to get column names from $table");
   }
 }
 
+//retrieve all tables
 function getTables () {
   $sql = "SHOW TABLES";
   global $conn;

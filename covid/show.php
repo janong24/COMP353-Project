@@ -1,11 +1,20 @@
 <?php require_once '../database.php';
+require_once '../functions.php';
 
-$persons = $conn->prepare("SELECT * FROM comp353.Persons WHERE PersonID = :PersonID");
-$persons->bindParam(':PersonID', $_GET['PersonID']);
-$tableName = $_GET['table'];
-$persons->execute();
+if(isset($_GET["ID"]) && isset($_GET["table"]))  {
+  $tableName = $_GET["table"];
+  $recordID = $_GET["ID"];
+} else {
+  $tableName = "";
+  $recordID = "";
+}
 
-$person = $persons->fetch(PDO::FETCH_ASSOC);
+$columnNames = getColumnNames($tableName);
+
+$query = "SELECT * FROM ".$tableName." WHERE ".$columnNames[0]." = ".$recordID."";
+$statement = $conn->prepare($query);
+$statement->execute();
+$data = $statement->fetch(PDO::FETCH_ASSOC);
 
 ?>
 
@@ -14,14 +23,18 @@ $person = $persons->fetch(PDO::FETCH_ASSOC);
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><?= $person["FirstName"] ?><?= $person["LastName"] ?></title>
+  <link rel="stylesheet" href="../styles.css">
+  <script src="https://kit.fontawesome.com/6ebd7b3ed7.js" crossorigin="anonymous"></script>
+  <title>Show Record</title>
 </head>
 <body>
-  <h1>Table: <?= $tableName ?></h1>
-  <h1><?= $person["FirstName"] ?><?= $person["LastName"] ?></h1>
-  <h3>Person ID: <?= $person["PersonID"] ?></h3>
-  <h3>First Name: <?= $person["FirstName"] ?></h3>
-  <h3>Last Name: <?= $person["LastName"] ?></h3>
-  <h3>DateOfBirth: <?= $person["DateOfBirth"] ?></h3>
+  <?php include_once ('../navbar.php'); ?>
+  <div class="containerLeftMargin">
+      <p><b>Table:</b> <?= $tableName ?></p>
+      <?php foreach ($data as $key => $value) { ?>
+        <p><b><?php print_r($key); ?>:</b> <?php print_r($value); ?></p>
+      <?php } ?>
+    <button class="smallBtn" onclick="history.back()">Return to Previous Page</button>
+  </div>
 </body>
 </html>

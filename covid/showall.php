@@ -22,7 +22,7 @@ $statement->execute();
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../styles.css">
   <script src="https://kit.fontawesome.com/6ebd7b3ed7.js" crossorigin="anonymous"></script>
-  <title>EPSTS - Table</title>
+  <title>EPSTS - Table <?= $tableName ?></title>
 </head>
 <body>
   <?php include_once ('../navbar.php'); ?>

@@ -21,6 +21,11 @@ p {
   padding: 36px 0 0 0;
 }
 
+.containerLeftMargin {
+  margin: 36px 36px;
+  line-height: 32px;
+}
+
 /* Centered text */
 .center {
   display: flex;
