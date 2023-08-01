@@ -1,10 +1,21 @@
-<!-- Dynamic Row Fetching
 <?php require_once '../database.php';
+require_once '../functions.php';
 
-$persons = $conn->prepare("SHOW COLUMNS FROM persons;");
-$persons->execute();
+$tableGET = $_GET["table"];
 
-$person = $persons->fetch(PDO::FETCH_ASSOC);
+$query = "SELECT * FROM ".$tableGET."";
+$columnList = $conn->prepare($query);
+$columnList->execute();
+$columnLists = $columnList->fetch(PDO::FETCH_ASSOC);
+
+
+$output = getColumnNames($tableGET);
+
+print_r($output);
+
+// $persons = $conn->prepare("SHOW COLUMNS FROM persons;");
+// $persons->execute();
+// $person = $persons->fetch(PDO::FETCH_ASSOC);
 
 ?>
 
@@ -16,8 +27,8 @@ $person = $persons->fetch(PDO::FETCH_ASSOC);
   <title>Document</title>
 </head>
 <body>
-<?php while ($row = $persons->fetch(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT)) { ?>
-  <?= $row["Field"] ?>
+<?php foreach ($output as $row) { ?>
+  <?= $row?>
 <?php } ?>
 </body>
-</html> -->
+</html>

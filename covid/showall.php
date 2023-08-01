@@ -1,8 +1,18 @@
 <?php require_once '../database.php';
+require_once '../functions.php';
 
-$statement = $conn->prepare('SELECT * FROM comp353.Persons AS Persons');
+if(isset($_GET["table"]))  {
+  $tableName = $_GET["table"];
+} else {
+  $tableName = "";
+}
+
+$columnNames = getColumnNames($tableName);
+
+$query = "SELECT * FROM ".$tableName."";
+$statement = $conn->prepare($query);
 $statement->execute();
-$table="persons";
+
 ?>
 
 <!DOCTYPE html>
@@ -18,44 +28,26 @@ $table="persons";
   <?php include_once ('../navbar.php'); ?>
   <button class="topBtn" href="./create.php">Add a new entry.</button>
   <table class="styled-table">
-    <caption><h1>Table: Persons</h1></caption>
+    <caption><h1>Table: <?= $tableName ?></h1></caption>
     <thead>
       <tr>
-        <td>PersonID</td>
-        <td>FirstName</td>
-        <td>LastName</td>
-        <td>DateOfBirth</td>
-        <td>MedicareNumber</td>
-        <td>MedicareExpiry</td>
-        <td>TelephoneNumber</td>
-        <td>Address</td>
-        <td>City</td>
-        <td>Province</td>
-        <td>PostalCode</td>
-        <td>Citizenship</td>
-        <td>Email</td>
-        <td>Actions</td>
+        <?php foreach ($columnNames as $row) { ?>
+          <td><?= $row?></td>
+        <?php } ?>
+          <td>Actions</td>
       </tr>
     </thead>
     <tbody>
     <?php while ($row = $statement->fetch(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT)) { ?>
+
       <tr>
-        <td><?= $row["PersonID"] ?></td>
-        <td><?= $row["FirstName"] ?></td>
-        <td><?= $row["LastName"] ?></td>
-        <td><?= $row["DateOfBirth"] ?></td>
-        <td><?= $row["MedicareNumber"] ?></td>
-        <td><?= $row["TelephoneNumber"] ?></td>
-        <td><?= $row["Address"] ?></td>
-        <td><?= $row["City"] ?></td>
-        <td><?= $row["Province"] ?></td>
-        <td><?= $row["PostalCode"] ?></td>
-        <td><?= $row["Citizenship"] ?></td>
-        <td><?= $row["Email"] ?></td>
+        <?php foreach ($row as $data) { ?>
+          <td><?= $data; ?></td>
+        <?php } ?>
         <td>
-          <a href="./show.php?PersonID=<?=$row["PersonID"]?>&table=<?=$table?>">Show</a>
-          <a href="./edit.php?PersonID=<?=$row["PersonID"]?>">Edit</a>
-          <a href="./delete.php?PersonID=<?=$row["PersonID"]?>">Delete</a>  
+          <a href="./show.php?ID=<?=reset($row)?>&table=<?=$tableName?>">Show</a>
+          <a href="./edit.php?ID=<?=reset($row)?>">Edit</a>
+          <a href="./delete.php?ID=<?=reset($row)?>">Delete</a>  
         </td>
       </tr>
       <?php } ?>
