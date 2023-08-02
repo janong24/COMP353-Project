@@ -197,4 +197,13 @@ p {
   background-color: #32e6c286;
 }
 
+/* Hidden Elements */
+#hidden_employees {
+  display: none;
+}
+
+#hidden_facilities {
+  display: none;
+}
+
 

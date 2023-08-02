@@ -27,4 +27,9 @@ function getTables () {
   }
 }
 
+//sends emails to recipient
+function sendMail($recipient) {
+
+}
+
 ?>
