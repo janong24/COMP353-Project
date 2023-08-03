@@ -1,32 +1,48 @@
 <?php require_once '../database.php';
+require_once '../functions.php';
 
-$persons = $conn->prepare("SELECT * FROM comp353.Persons as Persons WHERE Person.PersonID = :PersonID");
-$persons->bindParam(':PersonID', $_GET['PersonID']);
-$persons->execute();
+  if(isset($_GET["table"]) && isset($_GET["ID"]))  {
+    $tableName = $_GET["table"];
+    $recordID = $_GET["ID"];
+  } else {
+    $tableName = "";
+    $recordID = "";
+  }
 
-$person = $persons->fetch(PDO::FETCH_ASSOC);
-
-if(isset($_POST["FirstName"]) 
-  && isset($_POST["LastName"]) 
-  && isset($_POST["DateOfBirth"]) 
-  && isset($_POST["PersonID"])) {
-    $statement = $conn->prepare("UPDATE comp353.Persons SET 
-                                FirstName = :FirstName, 
-                                LastName = :LastName,
-                                DateOfBirth = :DateOfBirth
-                                WHERE PersonID = :PersonID;");
-    $statement->bindParam(':FirstName', $_POST['FirstName']);
-    $statement->bindParam(':LastName', $_POST['LastName']);
-    $statement->bindParam(':DateOfBirth', $_POST['DateOfBirth']);
-    $statement->bindParam(':PersonID', $_POST['PersonID']);
-    
-    if($statement->execute()) {
+  //insertion code
+  if(isset($_POST["FirstName"]) 
+    && isset($_POST["LastName"]) 
+    && isset($_POST["DateOfBirth"])) {
+      $persons = $conn->prepare("INSERT INTO COMP353.Persons (FirstName, LastName, DateOfBirth) 
+                                    VALUES (:FirstName, :LastName, :DateOfBirth);");
+      $persons->bindParam(':FirstName', $_POST['FirstName']);
+      $persons->bindParam(':LastName', $_POST['LastName']);
+      $persons->bindParam(':DateOfBirth', $_POST['DateOfBirth']);
+  
+    if($persons->execute()) {
+      echo '<script>alert("Successfully inserted to database.")</script>';
       header("Location: .");
     } else {
-      header("Location: ./edit.php?PersonID=".$_POST["PersonID"]);
+      echo '<script>alert("Insertion failed.")</script>';
     }
+  }
 
-}
+    //population code
+    $columnList = getColumnTypes($tableName);
+    $columnNames = getColumnNames($tableName);
+
+    $query = "SELECT * FROM ".$tableName." WHERE ".$columnNames[0]." = ".$recordID."";
+    $statement = $conn->prepare($query);
+    $statement->execute();
+    $data = $statement->fetch(PDO::FETCH_ASSOC);
+
+    $iterator1 = new ArrayIterator($columnList);
+    $iterator2 = new ArrayIterator($data);
+
+    $multipleIterator = new MultipleIterator(MultipleIterator::MIT_NEED_ALL|MultipleIterator::MIT_KEYS_ASSOC);
+
+    $multipleIterator->attachIterator($iterator1, 'column');
+    $multipleIterator->attachIterator($iterator2, 'data');
 
 ?>
 
@@ -36,21 +52,28 @@ if(isset($_POST["FirstName"])
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Edit an Entry</title>
+  <link rel="stylesheet" href="../styles.css">
+  <script src="https://kit.fontawesome.com/6ebd7b3ed7.js" crossorigin="anonymous"></script>
 </head>
 <body>
-  <h1>Edit an Entry</h1>
-  <form action="./edit.php" method="post">
-    <label for="FirstName">First Name</label><br/>
-    <input type="text" name="FirstName" id="FirstName" value="<?= $person["FirstName"] ?>"><br/>
-    <label for="LastName">Last Name</label><br/>
-    <input type="text" name="LastName" id="LastName" value="<?= $person["LastName"] ?>"><br/>
-    <label for="DateOfBirth">Date of Birth</label><br/>
-    <input type="date" name="DateOfBirth" id="DateOfBirth" value="<?= $person["DateOfBirth"] ?>"><br/>
-    <input type="hidden" name="PersonID" id="PersonID" value="<?= $person["PersonID"] ?>">
-    <br/>
-    <button type="submit">Update</button>
-  </form>
+  <?php include_once ('../navbar.php'); ?>
+  <div class="containerLeftMargin">
+    <h1>Edit an Entry</h1>
+    <form action="./create.php" method="post">
+      <?php foreach ($multipleIterator as $key => $value) { ?>
+        <label for="<?= $key['data'] ?>"><b><?= $key['data'] ?></b> <?= $value['column']['Type'] ?></label><br/>
+        <?php if($value['column']['Type'] == "date") { ?>
+          <input type="date" name="<?= $key['data'] ?>" id="<?= $key['data'] ?>" value="<?= $value['data'] ?>" required><br/>
+        <?php } else if(str_contains($value['column']['Type'], "int")) { ?>
+          <input type="number" name="<?= $key['data'] ?>" id="<?= $key['data'] ?>" value="<?= $value['data'] ?>" required><br/>
+        <?php } else if(str_contains($value['column']['Type'], "varchar")) { ?>
+          <input type="text" name="<?= $key['data'] ?>" id="<?= $key['data'] ?>" value="<?= $value['data'] ?>" required><br/>
+        <?php } ?>
+      <?php } ?>
+      <button class="submitBtn" type="submit">Add</button>
+    </form>
 
-  <button onclick="history.back()">Return to Previous Page</button>
+    <button class="smallBtn" onclick="history.back()">Return to Previous Page</button>
+  </div>
 </body>
 </html>

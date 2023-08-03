@@ -1,6 +1,14 @@
 <?php require_once '../database.php';
+require_once '../functions.php';
 
-if(isset($_POST["FirstName"]) 
+  if(isset($_GET["table"]))  {
+    $tableName = $_GET["table"];
+  } else {
+    $tableName = "";
+  }
+
+  //insertion code
+  if(isset($_POST["FirstName"]) 
     && isset($_POST["LastName"]) 
     && isset($_POST["DateOfBirth"])) {
       $persons = $conn->prepare("INSERT INTO COMP353.Persons (FirstName, LastName, DateOfBirth) 
@@ -9,11 +17,16 @@ if(isset($_POST["FirstName"])
       $persons->bindParam(':LastName', $_POST['LastName']);
       $persons->bindParam(':DateOfBirth', $_POST['DateOfBirth']);
   
-  if($persons->execute()) header("Location: .");
+    if($persons->execute()) {
+      echo '<script>alert("Successfully inserted to database.")</script>';
+      header("Location: .");
+    } else {
+      echo '<script>alert("Insertion failed.")</script>';
+    }
+  }
 
-  
-}
-
+    //population code
+    $columnList = getColumnTypes($tableName);
 ?>
 
 <!DOCTYPE html>
@@ -22,20 +35,28 @@ if(isset($_POST["FirstName"])
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Add a New Entry</title>
+  <link rel="stylesheet" href="../styles.css">
+  <script src="https://kit.fontawesome.com/6ebd7b3ed7.js" crossorigin="anonymous"></script>
 </head>
 <body>
-  <h1>Add a New Entry</h1>
-  <form action="./create.php" method="post">
-    <label for="FirstName">First Name</label><br/>
-    <input type="text" name="FirstName" id="FirstName"><br/>
-    <label for="LastName">Last Name</label><br/>
-    <input type="text" name="LastName" id="LastName"><br/>
-    <label for="DateOfBirth">Date of Birth</label><br/>
-    <input type="date" name="DateOfBirth" id="DateOfBirth"><br/>
-    <br/>
-    <button type="submit">Add</button>
-  </form>
+  <?php include_once ('../navbar.php'); ?>
+  <div class="containerLeftMargin">
+    <h1>Add a New Entry</h1>
+    <form action="./create.php" method="post">
+      <?php foreach ($columnList as $column) { ?>
+        <label for="<?= $column['Field'] ?>"><b><?= $column['Field'] ?></b> <?= $column['Type'] ?></label><br/>
+        <?php if($column['Type'] == "date") { ?>
+          <input type="date" name="<?= $column['Field'] ?>" id="<?= $column['Field'] ?>" required><br/>
+        <?php } else if(str_contains($column['Type'], "int")) { ?>
+          <input type="number" name="<?= $column['Field'] ?>" id="<?= $column['Field'] ?>" required><br/>
+        <?php } else if(str_contains($column['Type'], "varchar")) { ?>
+          <input type="text" name="<?= $column['Field'] ?>" id="<?= $column['Field'] ?>" required><br/>
+        <?php } ?>
+      <?php } ?>
+      <button class="submitBtn" type="submit">Add</button>
+    </form>
 
-  <button onclick="history.back()">Return to Previous Page</button>
+    <button class="smallBtn" onclick="history.back()">Return to Previous Page</button>
+  </div>
 </body>
 </html>

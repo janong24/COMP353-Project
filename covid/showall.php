@@ -26,7 +26,8 @@ $statement->execute();
 </head>
 <body>
   <?php include_once ('../navbar.php'); ?>
-  <button class="topBtn" href="./create.php">Add a new entry.</button>
+  <br/><br/>
+    <a class="topBtn" href="./create.php?table=<?=$tableName?>">Add a new entry.</a>
   <table class="styled-table">
     <caption><h1>Table: <?= $tableName ?></h1></caption>
     <thead>
@@ -46,8 +47,8 @@ $statement->execute();
         <?php } ?>
         <td>
           <a href="./show.php?ID=<?=reset($row)?>&table=<?=$tableName?>">Show</a>
-          <a href="./edit.php?ID=<?=reset($row)?>">Edit</a>
-          <a href="./delete.php?ID=<?=reset($row)?>">Delete</a>  
+          <a href="./edit.php?ID=<?=reset($row)?>&table=<?=$tableName?>">Edit</a>
+          <a href="./delete.php?ID=<?=reset($row)?>&table=<?=$tableName?>">Delete</a>  
         </td>
       </tr>
       <?php } ?>
