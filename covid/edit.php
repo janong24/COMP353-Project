@@ -9,24 +9,6 @@ require_once '../functions.php';
     $recordID = "";
   }
 
-  //insertion code
-  if(isset($_POST["FirstName"]) 
-    && isset($_POST["LastName"]) 
-    && isset($_POST["DateOfBirth"])) {
-      $persons = $conn->prepare("INSERT INTO COMP353.Persons (FirstName, LastName, DateOfBirth) 
-                                    VALUES (:FirstName, :LastName, :DateOfBirth);");
-      $persons->bindParam(':FirstName', $_POST['FirstName']);
-      $persons->bindParam(':LastName', $_POST['LastName']);
-      $persons->bindParam(':DateOfBirth', $_POST['DateOfBirth']);
-  
-    if($persons->execute()) {
-      echo '<script>alert("Successfully inserted to database.")</script>';
-      header("Location: .");
-    } else {
-      echo '<script>alert("Insertion failed.")</script>';
-    }
-  }
-
     //population code
     $columnList = getColumnTypes($tableName);
     $columnNames = getColumnNames($tableName);
@@ -59,7 +41,9 @@ require_once '../functions.php';
   <?php include_once ('../navbar.php'); ?>
   <div class="containerLeftMargin">
     <h1>Edit an Entry</h1>
-    <form action="./create.php" method="post">
+    <form action="./alter.php" method="post">
+      <input type="hidden" name="table" value="<?= $tableName ?>">
+      <input type="hidden" name="ID" value="<?= $recordID ?>">
       <?php foreach ($multipleIterator as $key => $value) { ?>
         <label for="<?= $key['data'] ?>"><b><?= $key['data'] ?></b> <?= $value['column']['Type'] ?></label><br/>
         <?php if($value['column']['Type'] == "date") { ?>

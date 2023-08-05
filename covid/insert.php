@@ -33,7 +33,7 @@
   //execute the query
   //need to send to success/fail pages
   if($query->execute()) {
-    header("Location: .");
+    header("Location: ./success.php?table=" . $tableName . "");
   } else {
   }
 ?>

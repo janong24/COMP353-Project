@@ -14,6 +14,5 @@
   </div> 
   <a href="custom.php"><i class="fa fa-fw fa-circle-question"></i>&nbsp;Custom Queries</a>
   <a href="diagram.php"><i class="fa fa-fw fa-diagram-project"></i>&nbsp;E/R Diagram</a>
-  <a href="mail.php"><i class="fa fa-fw fa-envelope"></i>&nbsp;Mail</a>
   <a href="about.php"><i class="fa fa-fw fa-circle-info"></i>&nbsp;About</a>
 </div>
