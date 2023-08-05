@@ -45,7 +45,8 @@ CREATE TRIGGER TeacherInfectedTrigger
     END IF;
   END;
 
--- Trigger than checks if the person scheduled has been vaccinated in the past 6 months. Basically checks the number of vaccinations done in the past 6 months. If it returns 0, then an error is signaled. Otherwise the person is vaccinated in the past 6 months.
+-- Trigger that checks if the person scheduled has been vaccinated in the past 6 months. 
+-- Basically checks the number of vaccinations done in the past 6 months. If it returns 0, then an error is signaled. Otherwise the person is vaccinated in the past 6 months.
 CREATE TRIGGER ScheduleVaccineCheck
   BEFORE INSERT ON Schedules
   FOR EACH ROW
@@ -65,4 +66,24 @@ CREATE TRIGGER ScheduleVaccineCheck
      END IF;
 END;
 
-    
+-- Trigger that checks overlapping student registration dates.
+-- Basically tries to look for atleast 1 registration with EndDate Null, or StartDate of new registration between a current registration witha  StartDate and EndDate.
+CREATE TRIGGER CheckStudentRegistration
+  BEFORE INSERT ON StudentRegistrations
+  FOR EACH ROW
+  BEGIN
+     IF EXISTS (
+        SELECT 1 
+        FROM StudentRegistrations 
+        WHERE StudentID = NEW.StudentID
+        AND (
+           (NEW.StartDate BETWEEN StartDate AND IFNULL(EndDate, NEW.StartDate))
+           OR (NEW.EndDate IS NOT NULL AND NEW.EndDate BETWEEN StartDate AND IFNULL(EndDate, NEW.EndDate))
+        )
+     ) THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'A student cannot be registered at more than one facility at the same time';
+     END IF;
+END;
+
+
