@@ -204,7 +204,7 @@ CREATE TABLE EmailLogs(
   PRIMARY KEY (emailContentID, facilityID),
   FOREIGN KEY (emailContentID) REFERENCES EmailContent(emailContentID),
   FOREIGN KEY (facilityID) REFERENCES Facilities(facilityID),
-  FOREIGN KEY (emailReceiverID) REFERENCES Persons(personID)
+  FOREIGN KEY (emailReceiverID) REFERENCES EmployeeRegistrations(PersonID)
 );
 
 -- TODO add constraints for conflicting schedules, vaccinations, and infections
@@ -215,7 +215,7 @@ CREATE TABLE Schedules(
   facilityID INT,
   startTime DATETIME,
   endTime DATETIME,
-  FOREIGN KEY (personID) REFERENCES Persons(personID),
+  FOREIGN KEY (personID) REFERENCES REFERENCES EmployeeRegistrations(PersonID),
   FOREIGN KEY (facilityID) REFERENCES Facilities(facilityID),
   CONSTRAINT CHK_TIME CHECK (startTime < endTime),
   CONSTRAINT CHK_ADV CHECK (
@@ -229,6 +229,6 @@ CREATE TABLE Assignments(
     teacherID INT,
     facilityID INT,
     dueDate DATE,
-    FOREIGN KEY (teacherID) REFERENCES Persons(personID),
+    FOREIGN KEY (teacherID) REFERENCES EmployeeRegistrations(PersonID),
     FOREIGN KEY (facilityID) REFERENCES Facilities(facilityID)
 );
