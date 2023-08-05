@@ -44,4 +44,25 @@ CREATE TRIGGER TeacherInfectedTrigger
           AND dueDate >= CURRENT_DATE();
     END IF;
   END;
+
+-- Trigger than checks if the person scheduled has been vaccinated in the past 6 months. Basically checks the number of vaccinations done in the past 6 months. If it returns 0, then an error is signaled. Otherwise the person is vaccinated in the past 6 months.
+CREATE TRIGGER ScheduleVaccineCheck
+  BEFORE INSERT ON Schedules
+  FOR EACH ROW
+  BEGIN
+     DECLARE vaccineCount INT;
+  
+     SELECT COUNT(*) INTO vaccineCount
+     FROM Vaccinations
+     WHERE Vaccinations.PersonID = NEW.PersonID
+     AND Vaccinations.VaccinationDate >= DATE_SUB(NEW.StartTime, INTERVAL 6 MONTH)
+     AND Vaccinations.VaccinationDate <= NEW.StartTime
+     AND Vaccinations.VaccineID IN (SELECT VaccineID FROM TypeOfVaccinations WHERE VaccineName = 'COVID-19');
+  
+     IF vaccineCount = 0 THEN 
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Cannot schedule employee without COVID-19 vaccination in the past six months';
+     END IF;
+END;
+
     
