@@ -191,7 +191,7 @@ CREATE TABLE StudentRegistrations (
 -- new additions
 
 CREATE TABLE EmailContent(
-  emailContentID INT PRIMARY KEY,
+  emailContentID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   emailSubject VARCHAR(255),
   emailBody VARCHAR(255),
   emailDate DATE
