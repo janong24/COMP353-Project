@@ -222,3 +222,13 @@ CREATE TABLE Schedules(
     DATE(startTime) <= DATE_ADD(CURRENT_DATE(), INTERVAL +4 WEEK)
   )
 );
+
+CREATE TABLE Assignments(
+    assignmentID INT PRIMARY KEY,
+    assignmentDescription VARCHAR(255),
+    teacherID INT,
+    facilityID INT,
+    dueDate DATE,
+    FOREIGN KEY (teacherID) REFERENCES Persons(personID),
+    FOREIGN KEY (facilityID) REFERENCES Facilities(facilityID)
+);
