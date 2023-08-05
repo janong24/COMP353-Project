@@ -7,24 +7,6 @@ require_once '../functions.php';
     $tableName = "";
   }
 
-  //insertion code
-  if(isset($_POST["FirstName"]) 
-    && isset($_POST["LastName"]) 
-    && isset($_POST["DateOfBirth"])) {
-      $persons = $conn->prepare("INSERT INTO COMP353.Persons (FirstName, LastName, DateOfBirth) 
-                                    VALUES (:FirstName, :LastName, :DateOfBirth);");
-      $persons->bindParam(':FirstName', $_POST['FirstName']);
-      $persons->bindParam(':LastName', $_POST['LastName']);
-      $persons->bindParam(':DateOfBirth', $_POST['DateOfBirth']);
-  
-    if($persons->execute()) {
-      echo '<script>alert("Successfully inserted to database.")</script>';
-      header("Location: .");
-    } else {
-      echo '<script>alert("Insertion failed.")</script>';
-    }
-  }
-
     //population code
     $columnList = getColumnTypes($tableName);
 ?>
@@ -42,7 +24,8 @@ require_once '../functions.php';
   <?php include_once ('../navbar.php'); ?>
   <div class="containerLeftMargin">
     <h1>Add a New Entry</h1>
-    <form action="./create.php" method="post">
+    <form action="./insert.php" method="post">
+      <input type="hidden" name="table" value="<?= $tableName ?>">
       <?php foreach ($columnList as $column) { ?>
         <label for="<?= $column['Field'] ?>"><b><?= $column['Field'] ?></b> <?= $column['Type'] ?></label><br/>
         <?php if($column['Type'] == "date") { ?>
