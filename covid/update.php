@@ -2,6 +2,8 @@
 require_once '../functions.php';
 //insertion code
 //no longer requires validation because of the required attribute in the form
+
+    //grab the table name from the get action and remove it from the get array
   if(isset($_POST["table"]))  {
     $tableName = $_POST["table"];
     unset($_POST["table"]);
@@ -9,6 +11,7 @@ require_once '../functions.php';
     $tableName = "";
   }
 
+    //grab the primary key from the get action and remove it from the get array
   if(isset($_POST["ID"]))  {
     $primaryKey = $_POST["ID"];
     unset($_POST["ID"]);

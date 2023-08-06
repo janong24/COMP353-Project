@@ -13,16 +13,18 @@ require_once '../functions.php';
     $columnList = getColumnTypes($tableName);
     $columnNames = getColumnNames($tableName);
 
+    //grab the data from the database
     $query = "SELECT * FROM ".$tableName." WHERE ".$columnNames[0]." = ".$recordID."";
     $statement = $conn->prepare($query);
     $statement->execute();
     $data = $statement->fetch(PDO::FETCH_ASSOC);
 
+    //create the multiple iterator
     $iterator1 = new ArrayIterator($columnList);
     $iterator2 = new ArrayIterator($data);
-
     $multipleIterator = new MultipleIterator(MultipleIterator::MIT_NEED_ALL|MultipleIterator::MIT_KEYS_ASSOC);
 
+    //attach the iterators
     $multipleIterator->attachIterator($iterator1, 'column');
     $multipleIterator->attachIterator($iterator2, 'data');
 

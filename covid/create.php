@@ -7,7 +7,6 @@ require_once '../functions.php';
     $tableName = "";
   }
 
-    //population code
     $columnList = getColumnTypes($tableName);
 ?>
 

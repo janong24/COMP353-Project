@@ -1,6 +1,8 @@
 <?php include_once ('../database.php');
 //insertion code
 //no longer requires validation because of the required attribute in the form
+
+  //grab the table name from the get action and remove it from the get array
   if(isset($_POST["table"]))  {
     $tableName = $_POST["table"];
     unset($_POST["table"]);
