@@ -41,9 +41,9 @@ require_once '../functions.php';
   $colValsWithCommas = implode(", ", $colVals);
 
   //create the DDL statement
-  $ddl = "UPDATE " . $tableName . " SET " . $colValsWithCommas . " WHERE " . $columnNames[0] . " = " . $primaryKey . ";";
-  print_r($ddl);
-  $query = $conn->prepare($ddl);
+  $dml = "UPDATE " . $tableName . " SET " . $colValsWithCommas . " WHERE " . $columnNames[0] . " = " . $primaryKey . ";";
+  print_r($dml);
+  $query = $conn->prepare($dml);
 
   //execute the query
   if($query->execute()) {

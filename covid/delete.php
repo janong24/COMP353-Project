@@ -20,8 +20,8 @@ require_once '../functions.php';
   $columnNames = getColumnNames($tableName);
 
   //create the DDL statement
-  $ddl = "DELETE FROM " . $tableName . " WHERE " . $columnNames[0] . " = " . $primaryKey . ";";
-  $query = $conn->prepare($ddl);
+  $dml = "DELETE FROM " . $tableName . " WHERE " . $columnNames[0] . " = " . $primaryKey . ";";
+  $query = $conn->prepare($dml);
 
     //execute the query
   if($query->execute()) {

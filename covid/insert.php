@@ -29,8 +29,8 @@
   $valuesWithCommas = implode(", ", $values);
 
   //create the DDL statement
-  $ddl = "INSERT INTO " . $tableName . " (" . $keysWithCommas . ") VALUES (" . $valuesWithCommas . ");";
-  $query = $conn->prepare($ddl);
+  $dml = "INSERT INTO " . $tableName . " (" . $keysWithCommas . ") VALUES (" . $valuesWithCommas . ");";
+  $query = $conn->prepare($dml);
 
   //execute the query
   if($query->execute()) {
