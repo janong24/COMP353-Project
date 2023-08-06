@@ -41,7 +41,7 @@ require_once '../functions.php';
   <?php include_once ('../navbar.php'); ?>
   <div class="containerLeftMargin">
     <h1>Edit an Entry</h1>
-    <form action="./alter.php" method="post">
+    <form action="./update.php" method="post">
       <input type="hidden" name="table" value="<?= $tableName ?>">
       <input type="hidden" name="ID" value="<?= $recordID ?>">
       <?php foreach ($multipleIterator as $key => $value) { ?>
@@ -54,7 +54,7 @@ require_once '../functions.php';
           <input type="text" name="<?= $key['data'] ?>" id="<?= $key['data'] ?>" value="<?= $value['data'] ?>" required><br/>
         <?php } ?>
       <?php } ?>
-      <button class="submitBtn" type="submit">Add</button>
+      <button class="submitBtn" type="submit">Edit</button>
     </form>
 
     <button class="smallBtn" onclick="history.back()">Return to Previous Page</button>

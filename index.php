@@ -13,7 +13,7 @@
       <img class="flexItem" src="logo.png" alt="logo">  
       <h1 class="flexItem">Education Personnel Status Tracking System</h1>
       <div class="center">
-        <a class="flexItem btn" href="./covid/index.php">Enter the system.</a>
+        <a class="flexItem btn" href="./covid/index.php">Enter the system</a>
       </div>
     </div>
   </div>

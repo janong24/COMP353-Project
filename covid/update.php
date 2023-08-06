@@ -1,4 +1,5 @@
 <?php include_once ('../database.php');
+require_once '../functions.php';
 //insertion code
 //no longer requires validation because of the required attribute in the form
   if(isset($_POST["table"]))  {
@@ -8,26 +9,37 @@
     $tableName = "";
   }
 
+  if(isset($_POST["ID"]))  {
+    $primaryKey = $_POST["ID"];
+    unset($_POST["ID"]);
+  } else {
+    $primaryKey = "";
+  }
+
   //initialize variables
   global $conn;
-  $keys = array();
-  $values = array();
+  $colVals = array();
+  $temp = "";
+  $columnNames = getColumnNames($tableName);
 
   //loop through all the POST data and push them into the arrays
   foreach ($_POST as $key => $value) {
-    array_push($keys, $key);
-    if(!is_numeric($value)) {
-      $value = "'" . $value . "'";
+    if(is_numeric($value)) {
+      $temp = $key . "=" . $value;
     }
-    array_push($values, $value);
+    else {
+      $temp = $key . "='" . $value . "'";
+    }
+    
+    array_push($colVals, $temp);
   }
 
   //convert the arrays into strings
-  $keysWithCommas = implode(", ", $keys);
-  $valuesWithCommas = implode(", ", $values);
+  $colValsWithCommas = implode(", ", $colVals);
 
   //create the DDL statement
-  $ddl = "INSERT INTO " . $tableName . " (" . $keysWithCommas . ") VALUES (" . $valuesWithCommas . ");";
+  $ddl = "UPDATE " . $tableName . " SET " . $colValsWithCommas . " WHERE " . $columnNames[0] . " = " . $primaryKey . ";";
+  print_r($ddl);
   $query = $conn->prepare($ddl);
 
   //execute the query
