@@ -30,7 +30,11 @@ require_once '../functions.php';
         <?php if($column['Type'] == "date") { ?>
           <input type="date" name="<?= $column['Field'] ?>" id="<?= $column['Field'] ?>" required><br/>
         <?php } else if(str_contains($column['Type'], "int")) { ?>
-          <input type="number" name="<?= $column['Field'] ?>" id="<?= $column['Field'] ?>" required><br/>
+          <?php if(str_contains($column['Field'], "ID")) { ?>
+            <label for="<?= $column['Field'] ?>">(Auto-generated)</label><br/>
+          <?php } else {?>
+            <input type="number" name="<?= $column['Field'] ?>" id="<?= $column['Field'] ?>" required><br/>
+          <?php } ?>
         <?php } else if(str_contains($column['Type'], "varchar")) { ?>
           <input type="text" name="<?= $column['Field'] ?>" id="<?= $column['Field'] ?>" required><br/>
         <?php } ?>

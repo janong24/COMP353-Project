@@ -38,7 +38,7 @@ $statement->execute();
 <body>
   <?php include_once ('../navbar.php'); ?>
   <br/><br/>
-    <a class="topBtn" href="./create.php?table=<?=$tableName?>">Add a new entry.</a>
+    <a class="topBtn" href="./create.php?table=<?=$tableName?>">Add a new entry</a>
   <table class="styled-table">
     <caption><h1>Table of <?= $_GET["query"] ?></h1></caption>
     <thead>
