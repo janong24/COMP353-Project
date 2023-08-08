@@ -128,9 +128,13 @@ INSERT INTO EmployeeRegistrations VALUES(26, 9, '2023-01-01', NULL, 5, NULL);
 INSERT INTO EmployeeRegistrations VALUES(25, 10, '2023-01-01', NULL, 5, NULL);
 
 -- Schedules(scheduleID, personID, facilityID, startTime, endTime)
-INSERT INTO Schedules VALUES(1, 25, 10, '2012-08-13 17:39:51', '2012-08-13 17:39:51');
+INSERT INTO Schedules VALUES(1, 25, 10, '2012-08-13 11:39:51', '2012-08-13 17:39:51');
 INSERT INTO Schedules VALUES(2, 25, 10, '2013-08-13 11:39:51', '2013-08-13 17:39:51');
-INSERT INTO Schedules VALUES(3, 25, 10, '2014-08-13 17:39:51', '2014-08-13 17:39:51');
+INSERT INTO Schedules VALUES(3, 25, 10, '2014-08-13 11:39:51', '2014-08-13 17:39:51');
+
+INSERT INTO Schedules VALUES(4, 5, 1, '2023-08-03 11:39:51', '2023-08-03 17:39:51');
+INSERT INTO Schedules VALUES(5, 7, 1, '2023-08-03 11:39:51', '2023-08-03 17:39:51');
+INSERT INTO Schedules VALUES(6, 7, 1, '2023-08-04 11:39:51', '2023-08-04 17:39:51');
 
 -- EmailContent(emailContentID, emailSubject, emailBody, emailDate)
 
