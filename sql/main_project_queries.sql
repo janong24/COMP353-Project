@@ -48,7 +48,10 @@ SELECT p.firstName, p.lastName, i.dateOfInfection, f.name
   JOIN Facilities AS f ON er.facilityID = f.facilityID
   JOIN EmployeeType AS et ON er.employeeTypeID = et.employeeTypeID
   JOIN Infections AS i ON p.personID = i.personID
+  JOIN TypeOfInfections AS ti on i.TypeID = ti.TypeID
   WHERE et.employeeType = 'Teacher'
+        AND ti.TypeName = 'COVID-19'
+        AND i.dateOfInfection BETWEEN DATE_SUB(CURDATE(), INTERVAL 2 WEEK) AND CURDATE()
   ORDER BY f.name, p.firstName;
 
 -- 12
