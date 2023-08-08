@@ -14,6 +14,35 @@ function getColumnNames ($table) {
   }
 }
 
+//retrieve all names of facilities
+function getFacilities () {
+  $sql = "SELECT FacilityID, Name FROM facilities";
+  global $conn;
+  try {
+    $statement = $conn->prepare($sql);
+    $statement->execute();
+    $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+    return $data;
+  } catch (PDOException $e) {
+    trigger_error("Error: Failed to get Facilities.");
+  }
+}
+
+//retrieve all employees
+function getEmployees () {
+  $sql = "SELECT DISTINCT p.PersonID, p.FirstName, p.LastName FROM EmployeeRegistrations er JOIN Persons p ON er.PersonID = p.PersonID ORDER BY p.PersonID ASC;";
+  global $conn;
+  try {
+    $statement = $conn->prepare($sql);
+    $statement->execute();
+    $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+    return $data;
+  } catch (PDOException $e) {
+    trigger_error("Error: Failed to get Employees.");
+  }
+}
+
+
 //retrieve all columns from a table with their corresponding data type
 function getColumnTypes ($table) {
   $sql = "DESCRIBE ".$table."";

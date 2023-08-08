@@ -7,9 +7,22 @@ if(isset($_GET["query"]))  {
   $query = "";
 }
 
+if(isset($_GET["facility"]))  {
+  $facility = $_GET["facility"];
+} else {
+  $facility = "";
+}
+
+if(isset($_GET["employee"]))  {
+  $employee = $_GET["employee"];
+} else {
+  $employee = "";
+}
+
+$facilities = (getFacilities());
+$employees = (getEmployees());
+
 //variable initialization
-$specificFacilityID = 1;
-$specificEmployeeID = 1;
 $specificPeriodStartTime = DATE('2012-01-01');
 $specificPeriodEndTime = DATE('2022-01-01');
 
@@ -47,7 +60,7 @@ switch ($query) {
     JOIN EmployeeRegistrations AS er ON f.facilityID = er.facilityID
     JOIN EmployeeType AS et ON er.employeeTypeID = et.employeeTypeID
     JOIN Persons AS p ON er.personID = p.personID
-    WHERE f.facilityID = @specificFacilityID
+    WHERE f.facilityID = " . $facility . "
     ORDER BY et.employeeType ASC, p.firstName ASC, p.lastName ASC;
     ";
     break;
@@ -78,7 +91,7 @@ switch ($query) {
     SELECT *
     FROM EmailContent AS ec
     JOIN EmailLogs AS el ON ec.emailContentID = el.emailContentID
-    WHERE el.facilityID = specificFacilityID
+    WHERE el.facilityID = " . $facility . "
     ORDER BY ec.emailDate;
     ";
     break;
@@ -194,8 +207,11 @@ switch ($query) {
 // Execute query if not empty
 if (!empty($query)) {
   $statement = $conn->prepare($query);
-  $statement->execute();
-  $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+  if($statement->execute()) {
+    $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+  } else {
+    header("Location: ./failure.php");
+  }
 }
 
 ?>
@@ -211,14 +227,17 @@ if (!empty($query)) {
   <script>
     // Show/hide divs based on query selection
     function showDiv(select) {
+      //show the employee selector
       if (select.value == "q10") {
         document.getElementById('hidden_employees').style.display = "block";
         document.getElementById('hidden_facilities').style.display = "none";
       } 
-      else if ((select.value == "q13") || (select.value =="q14")) {
+      //show the facilities selector
+      else if ((select.value == "q9") || (select.value == "q12") || (select.value == "q13") || (select.value =="q14")) {
         document.getElementById('hidden_employees').style.display = "none";
         document.getElementById('hidden_facilities').style.display = "block";
       } 
+      //hide both selectors
       else {
         document.getElementById('hidden_employees').style.display = "none";
         document.getElementById('hidden_facilities').style.display = "none";
@@ -248,14 +267,20 @@ if (!empty($query)) {
         <option value="q17">Q17. For every ministry in the system, provide its minister's details.</option>
         <option value="q18">Q18. Get details of the counselor(s) who are currently working and has been infected by COVID-19 at least three times.</option>
       </select>
-      <select id="hidden_employees" name="employee">
-        <p>Choose an employee:</p>
-        <option value="">An employee</option>
+      <br/>
+      <select id="hidden_employees" name="employee" default="" required>
+        <?php foreach ($employees as $employee) { ?>
+          <?php $record = $employee['PersonID'] . ' - ' . $employee['FirstName'] . ' ' . $employee['LastName']?>
+          <option value="<?= $employee['PersonID'] ?>"><?= $record ?></option>
+        <?php } ?>
       </select>
-      <select id="hidden_facilities" name="facility">
-        <p>Choose a facility:</p>
-        <option value="">A facility</option>
+      <select id="hidden_facilities" name="facility" default ="" required>
+        <?php foreach ($facilities as $facility) { ?>
+          <?php $record = $facility['FacilityID'] . ' - ' . $facility['Name'] ?> 
+          <option value="<?= $facility['FacilityID'] ?>"><?= $record ?></option>
+        <?php } ?>
       </select>
+      <br/>
       <input type="submit" value="Submit">
     </form>
 
