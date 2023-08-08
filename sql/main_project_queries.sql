@@ -38,6 +38,7 @@ SELECT f.name, DATE(s.startTime) AS 'dayOfTheYear', s.startTime, s.endTime
   JOIN Facilities AS f ON s.facilityID = f.facilityID
   WHERE DATE(s.startTime) >= specificPeriodStartTime
   AND DATE(s.endTime) <= specificPeriodEndTime
+  AND s.personID = specificEmployeeID
   ORDER BY f.name, DATE(s.startTime), s.startTime;
 
 -- 11
@@ -68,6 +69,7 @@ SELECT p.firstName, p.lastName, ft.typeName AS 'role'
   WHERE et.employeeType = 'Teacher'
   AND DATE(s.startTime) >= DATE_ADD(CURRENT_DATE(), INTERVAL -14 DAY)
   AND DATE(s.endTime) <= CURRENT_DATE()
+  AND s.facilityID = specificFacilityID
   ORDER BY ft.typeName, p.firstName;
 
 -- 14 TODO TEST
@@ -79,7 +81,7 @@ SELECT s.facilityID, SUM(DATEDIFF(HOUR, s.endTime, s.startTime)) AS 'totalHours'
   WHERE et.employeeType = 'Teacher'
   AND DATE(s.startTime) >= specificPeriodStartTime
   AND DATE(s.endTime) <= specificPeriodEndTime
-  GROUP BY s.facilityID
+  AND s.facilityID = specificFacilityID
   ORDER BY p.firstName, p.lastName;
 
 -- 15

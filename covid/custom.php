@@ -71,6 +71,7 @@ switch ($query) {
     JOIN Facilities AS f ON s.facilityID = f.facilityID
     WHERE DATE(s.startTime) >= specificPeriodStartTime
     AND DATE(s.endTime) <= specificPeriodEndTime
+    AND s.personID = " . $employee . "
     ORDER BY f.name, DATE(s.startTime), s.startTime;
     ";
     break;
@@ -107,6 +108,7 @@ switch ($query) {
     WHERE et.employeeType = 'Teacher'
     AND DATE(s.startTime) >= DATE_ADD(CURRENT_DATE(), INTERVAL -14 DAY)
     AND DATE(s.endTime) <= CURRENT_DATE()
+    AND s.facilityID = specificFacilityID " . $facility . "
     ORDER BY ft.typeName, p.firstName;
     ";
     break;
@@ -120,7 +122,7 @@ switch ($query) {
     WHERE et.employeeType = 'Teacher'
     AND DATE(s.startTime) >= specificPeriodStartTime
     AND DATE(s.endTime) <= specificPeriodEndTime
-    GROUP BY s.facilityID
+    AND s.facilityID = " . $facility . "
     ORDER BY p.firstName, p.lastName;
     ";
     break;
