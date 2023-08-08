@@ -1,8 +1,8 @@
 -- setting variables
 SET @specificFacilityID := 1;
 SET @specificEmployeeID := 1;
-SET @specificPeriodStartTime := DATE('2012-01-01')
-SET @specificPeriodEndTime := DATE('2022-01-01')
+SET @specificPeriodStartTime := DATE('2012-01-01');
+SET @specificPeriodEndTime := DATE('2024-01-01');
 
 -- 8
 SELECT f.name, f.address, f.city, f.province, f.postalCode, f.phoneNumber, f.webAddress, ft.typeName, r.totalEmployees, r2.principalFirstName, r2.principalLastName
@@ -32,13 +32,13 @@ SELECT p.firstName, p.lastName, er.startDate, p.dateOfBirth, p.medicareNumber, p
   WHERE f.facilityID = @specificFacilityID
   ORDER BY et.employeeType ASC, p.firstName ASC, p.lastName ASC;
 
--- 10 TODO TEST
+-- 10
 SELECT f.name, DATE(s.startTime) AS 'dayOfTheYear', s.startTime, s.endTime
   FROM Schedules AS s
   JOIN Facilities AS f ON s.facilityID = f.facilityID
-  WHERE DATE(s.startTime) >= specificPeriodStartTime
-  AND DATE(s.endTime) <= specificPeriodEndTime
-  AND s.personID = specificEmployeeID
+  WHERE DATE(s.startTime) >= @specificPeriodStartTime
+  AND DATE(s.endTime) <= @specificPeriodEndTime
+  AND s.personID = @specificEmployeeID
   ORDER BY f.name, DATE(s.startTime), s.startTime;
 
 -- 11
@@ -55,11 +55,11 @@ SELECT p.firstName, p.lastName, i.dateOfInfection, f.name
 SELECT *
   FROM EmailContent AS ec
   JOIN EmailLogs AS el ON ec.emailContentID = el.emailContentID
-  WHERE el.facilityID = specificFacilityID
+  WHERE el.facilityID = @specificFacilityID
   ORDER BY ec.emailDate;
 
--- 13 TODO TEST
-SELECT p.firstName, p.lastName, ft.typeName AS 'role'
+-- 13
+SELECT s.facilityID, p.firstName, p.lastName, ft.typeName AS 'role'
   FROM Schedules AS s
   JOIN Persons AS p ON s.personID = p.personID
   JOIN Facilities AS f ON s.facilityID = f.facilityID
@@ -69,19 +69,21 @@ SELECT p.firstName, p.lastName, ft.typeName AS 'role'
   WHERE et.employeeType = 'Teacher'
   AND DATE(s.startTime) >= DATE_ADD(CURRENT_DATE(), INTERVAL -14 DAY)
   AND DATE(s.endTime) <= CURRENT_DATE()
-  AND s.facilityID = specificFacilityID
+  AND s.facilityID = @specificFacilityID
+  GROUP BY p.personID
   ORDER BY ft.typeName, p.firstName;
 
--- 14 TODO TEST
-SELECT s.facilityID, SUM(DATEDIFF(HOUR, s.endTime, s.startTime)) AS 'totalHours'
+-- 14
+SELECT s.facilityID, p.personID, SUM(TIMESTAMPDIFF(HOUR, s.startTime, s.endTime)) AS 'totalHours', s.startTime, s.endTime
   FROM Schedules AS s
   JOIN Persons AS p ON s.personID = p.personID
   JOIN EmployeeRegistrations AS er ON p.personID = er.personID
   JOIN EmployeeType AS et ON er.employeeTypeID = et.employeeTypeID
   WHERE et.employeeType = 'Teacher'
-  AND DATE(s.startTime) >= specificPeriodStartTime
-  AND DATE(s.endTime) <= specificPeriodEndTime
-  AND s.facilityID = specificFacilityID
+  AND DATE(s.startTime) >= @specificPeriodStartTime
+  AND DATE(s.endTime) <= @specificPeriodEndTime
+  AND s.facilityID = @specificFacilityID
+  GROUP BY p.personID
   ORDER BY p.firstName, p.lastName;
 
 -- 15
@@ -108,9 +110,9 @@ SELECT f.province, f.name, f.capacity, r.numberOfTeachersInfectedInPastTwoWeeks,
       GROUP BY f.facilityID
   ) r2 ON f.facilityID = r2.facilityID
   WHERE ft.subTypeName = 'High School'
-  ORDER BY f.province, r.teachersInfectedInPastTwoWeeks;
+  ORDER BY f.province, r.numberOfTeachersInfectedInPastTwoWeeks;
 
--- 16 TODO TEST
+-- 16
 SELECT p.firstName, p.lastName, p.city, r.numberOfManagementFacilities, r2.numberOfEducationalFacilities
   FROM Ministries AS m
   JOIN Persons AS p ON m.ministerOfEducationID = p.personID
@@ -130,8 +132,8 @@ SELECT p.firstName, p.lastName, p.city, r.numberOfManagementFacilities, r2.numbe
   ) r2 on m.MinistryID = r2.ministryID
   ORDER BY p.city ASC, r2.numberOfEducationalFacilities DESC;
 
--- 17 TODO add one thing to select
-SELECT p.firstName, p.lastName, r2.firstDayAsTeacher, ft.typeName, p.dateOfBirth, p.email
+-- 17 TODO TEST
+SELECT p.firstName, p.lastName, r2.firstDayAsTeacher, ft.typeName, p.dateOfBirth, p.email, SUM(TIMESTAMPDIFF(HOUR, s.startTime, s.endTime)) AS 'totalHours'
   FROM EmployeeRegistrations AS er
   JOIN EmployeeType AS et ON er.employeeTypeID = et.employeeTypeID
   JOIN Persons AS p ON er.personID = p.personID

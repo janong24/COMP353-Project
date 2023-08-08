@@ -1,4 +1,5 @@
 -- Infection Trigger
+DELIMITER |
 CREATE TRIGGER TeacherInfectedTrigger
   AFTER INSERT ON Infections
   FOR EACH ROW
@@ -11,15 +12,15 @@ CREATE TRIGGER TeacherInfectedTrigger
       )
       THEN  
         INSERT INTO EmailContent(emailSubject, emailBody, emailDate) VALUES (
-          'Warning - COVID-19 Infection of ' + NEW.personID + ' on ' + CURRENT_DATE,
-          (SELECT CONCAT(firstName, lastName) FROM Persons WHERE Persons.personID = NEW.personID) + ' who teaches at your school has been infected with COVID-19 on ' + CONVERT(NEW.dateOfInfection, CHAR),
+          CONCAT('Warning - COVID-19 Infection of ', NEW.personID, ' on ', CAST(CURRENT_DATE AS CHAR)),
+          CONCAT((SELECT CONCAT(firstName, lastName) FROM Persons WHERE Persons.personID = NEW.personID), ' who teaches at your school has been infected with COVID-19 on ', CAST(NEW.dateOfInfection AS CHAR)),
           CURRENT_DATE()
         );
         INSERT INTO EmailLogs VALUES (
           (
             SELECT emailContentID 
               FROM EmailContent 
-              WHERE emailSubject = ('Warning - COVID-19 Infection of ' + NEW.personID + ' on ' + CURRENT_DATE)
+              WHERE emailSubject COLLATE utf8mb4_general_ci = CONCAT('Warning - COVID-19 Infection of ', NEW.personID, ' on ', CAST(CURRENT_DATE AS CHAR))
           ),
           (
             SELECT facilityID
@@ -31,19 +32,22 @@ CREATE TRIGGER TeacherInfectedTrigger
               FROM EmployeeRegistrations AS er
               JOIN EmployeeType AS et ON er.employeeTypeID = et.employeeTypeID
               WHERE et.employeeType = 'Principal'
-              AND et.facilityID = (
+              AND er.facilityID = (
                 SELECT facilityID
                   FROM EmployeeRegistrations AS er
                   WHERE er.personID = NEW.personID
               )
           )
         );
-        DELETE FROM Assignments AS a
-          WHERE a.teacherID = NEW.personID
-          AND dueDate <= DATE_ADD(CURRENT_DATE(), INTERVAL +14 DAY)
-          AND dueDate >= CURRENT_DATE();
+        DELETE FROM Assignments
+          WHERE Assignments.teacherID = NEW.personID
+          AND Assignments.dueDate <= DATE_ADD(CURRENT_DATE(), INTERVAL 14 DAY)
+          AND Assignments.dueDate >= CURRENT_DATE();
     END IF;
   END;
+|
+
+DELIMITER ;
 
 -- Trigger that checks if the person scheduled has been vaccinated in the past 6 months. 
 -- Basically checks the number of vaccinations done in the past 6 months. If it returns 0, then an error is signaled. Otherwise the person is vaccinated in the past 6 months.

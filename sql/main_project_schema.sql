@@ -3,7 +3,7 @@
 -- Persons
 
 CREATE TABLE Persons(
-    PersonID INT PRIMARY KEY,
+    PersonID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     FirstName VARCHAR(255),
     LastName VARCHAR(255),
     DateOfBirth DATE,
@@ -31,7 +31,7 @@ VALUES (1, 'COVID-19'),
        (3, 'Other');
 
 CREATE TABLE Infections(
-    InfectionID INT PRIMARY KEY,
+    InfectionID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     DateOfInfection DATE,
     TypeID INT,
     PersonID INT,
@@ -52,7 +52,7 @@ VALUES (1, 'Pfizer'),
        (4, 'Johnson & Johnson');
 
 CREATE TABLE Vaccinations(
-    VaccinationID INT PRIMARY KEY,
+    VaccinationID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     VaccinationDate DATE,
     DoseNumber INT,
     VaccineID INT,
@@ -64,7 +64,7 @@ CREATE TABLE Vaccinations(
 -- Ministry
 
 CREATE TABLE Ministries(
-    MinistryID INT PRIMARY KEY,
+    MinistryID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     Name VARCHAR(255),
     Address VARCHAR(255),
     City VARCHAR(255),
@@ -95,16 +95,8 @@ VALUES
 (4, 'Education', 'Middle School'),
 (5, 'Education', 'High School');
 
-CREATE TABLE PossibleFacilitiesTypes (
-    FacilityID INT,
-    TypeID INT,
-    PRIMARY KEY (FacilityID, TypeID),
-    FOREIGN KEY (FacilityID) REFERENCES Facilities(FacilityID),
-    FOREIGN KEY (TypeID) REFERENCES FacilityTypes(TypeID)
-);
-
 CREATE TABLE Facilities (
-    FacilityID INT PRIMARY KEY,
+    FacilityID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     Name VARCHAR(255),
     Address VARCHAR(255),
     City VARCHAR(255),
@@ -116,13 +108,13 @@ CREATE TABLE Facilities (
     MinistryID INT,
     FacilityTypeID INT,
     FOREIGN KEY (MinistryID) REFERENCES Ministries(MinistryID),
-    FOREIGN KEY (FacilityTypeID) REFERENCES FacilityTypes(FacilityTypeID)
+    FOREIGN KEY (FacilityTypeID) REFERENCES FacilityTypes(TypeID)
 );
 
 -- Employee
 
 CREATE TABLE EmployeeType (
-    EmployeeTypeID INT PRIMARY KEY,
+    EmployeeTypeID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     EmployeeType VARCHAR(255)
 );
 
@@ -207,20 +199,14 @@ CREATE TABLE EmailLogs(
   FOREIGN KEY (emailReceiverID) REFERENCES EmployeeRegistrations(PersonID)
 );
 
--- TODO add constraints for conflicting schedules, vaccinations, and infections
--- NOTE: mysql doesnt rly support constraints might have to use triggers instead
 CREATE TABLE Schedules(
   scheduleID INT PRIMARY KEY,
   personID INT,
   facilityID INT,
   startTime DATETIME,
   endTime DATETIME,
-  FOREIGN KEY (personID) REFERENCES REFERENCES EmployeeRegistrations(PersonID),
-  FOREIGN KEY (facilityID) REFERENCES Facilities(facilityID),
-  CONSTRAINT CHK_TIME CHECK (startTime < endTime),
-  CONSTRAINT CHK_ADV CHECK (
-    DATE(startTime) <= DATE_ADD(CURRENT_DATE(), INTERVAL +4 WEEK)
-  )
+  FOREIGN KEY (personID) REFERENCES EmployeeRegistrations(PersonID),
+  FOREIGN KEY (facilityID) REFERENCES Facilities(facilityID)
 );
 
 CREATE TABLE Assignments(
