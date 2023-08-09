@@ -1,4 +1,4 @@
--- Infection Trigger
+-- Infected Teacher Trigger
 DELIMITER |
 CREATE TRIGGER TeacherInfectedTrigger
   AFTER INSERT ON Infections

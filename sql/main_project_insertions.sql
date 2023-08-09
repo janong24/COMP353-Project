@@ -132,6 +132,7 @@ INSERT INTO EmployeeRegistrations VALUES(9, 5, '2022-09-18', NULL, 1, 4);
 INSERT INTO EmployeeRegistrations VALUES(10, 7, '2022-11-30', NULL, 1, 5);
 INSERT INTO EmployeeRegistrations VALUES(26, 9, '2023-01-01', NULL, 5, NULL);
 INSERT INTO EmployeeRegistrations VALUES(25, 10, '2023-01-01', NULL, 5, NULL);
+INSERT INTO EmployeeRegistrations VALUES(31, 7, '2023-01-01', NULL, 5, NULL);
 
 -- for q9
 INSERT INTO EmployeeRegistrations VALUES(28, 1, DATE('2023-01-01'), NULL, 5, NULL);
