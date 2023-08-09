@@ -85,16 +85,16 @@ ORDER BY
 
 
 -- 14
-SELECT s.facilityID, p.personID, SUM(TIMESTAMPDIFF(HOUR, s.startTime, s.endTime)) AS 'totalHours', s.startTime, s.endTime
+SELECT p.personID, p.firstname, p.lastName, SUM(TIMESTAMPDIFF(HOUR, s.startTime, s.endTime)) AS 'totalHours'
   FROM Schedules AS s
   JOIN Persons AS p ON s.personID = p.personID
   JOIN EmployeeRegistrations AS er ON p.personID = er.personID
   JOIN EmployeeType AS et ON er.employeeTypeID = et.employeeTypeID
   WHERE et.employeeType = 'Teacher'
-  AND DATE(s.startTime) >= @specificPeriodStartTime
-  AND DATE(s.endTime) <= @specificPeriodEndTime
-  AND s.facilityID = @specificFacilityID
-  GROUP BY p.personID
+    AND DATE(s.startTime) >= @specificPeriodStartTime
+    AND DATE(s.endTime) <= @specificPeriodEndTime
+    AND s.facilityID = @specificFacilityID
+  GROUP BY p.personID, p.firstName, p.lastName
   ORDER BY p.firstName, p.lastName;
 
 -- 15
