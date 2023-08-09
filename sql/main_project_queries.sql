@@ -62,19 +62,27 @@ SELECT *
   ORDER BY ec.emailDate;
 
 -- 13
-SELECT s.facilityID, p.firstName, p.lastName, ft.typeName AS 'role'
-  FROM Schedules AS s
-  JOIN Persons AS p ON s.personID = p.personID
-  JOIN Facilities AS f ON s.facilityID = f.facilityID
-  JOIN FacilityTypes AS ft ON f.facilityTypeID = ft.typeID
-  JOIN EmployeeRegistrations AS er ON p.personID = er.personID
-  JOIN EmployeeType AS et ON er.employeeTypeID = et.employeeTypeID
-  WHERE et.employeeType = 'Teacher'
-  AND DATE(s.startTime) >= DATE_ADD(CURRENT_DATE(), INTERVAL -14 DAY)
-  AND DATE(s.endTime) <= CURRENT_DATE()
-  AND s.facilityID = @specificFacilityID
-  GROUP BY p.personID
-  ORDER BY ft.typeName, p.firstName;
+SELECT s.facilityID, p.firstName, p.lastName,
+  CASE 
+    WHEN ft.SubTypeName IN ('Primary School', 'Middle School') THEN 'elementary'
+    ELSE 'secondary'
+  END AS 'role'
+FROM Schedules AS s
+JOIN Persons AS p ON s.personID = p.personID
+JOIN Facilities AS f ON s.facilityID = f.facilityID
+JOIN FacilityTypes AS ft ON f.facilityTypeID = ft.typeID
+JOIN EmployeeRegistrations AS er ON p.personID = er.personID
+JOIN EmployeeType AS et ON er.employeeTypeID = et.employeeTypeID
+WHERE et.employeeType = 'Teacher'
+AND DATE(s.startTime) BETWEEN DATE_ADD(CURRENT_DATE(), INTERVAL -14 DAY) AND CURRENT_DATE()
+AND s.facilityID = @specificFacilityID
+GROUP BY p.personID
+ORDER BY 
+  CASE 
+    WHEN ft.SubTypeName IN ('Primary School', 'Middle School') THEN 1
+    ELSE 2
+  END, p.firstName;
+
 
 -- 14
 SELECT s.facilityID, p.personID, SUM(TIMESTAMPDIFF(HOUR, s.startTime, s.endTime)) AS 'totalHours', s.startTime, s.endTime
