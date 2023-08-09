@@ -49,6 +49,31 @@ CREATE TRIGGER TeacherInfectedTrigger
 
 DELIMITER ;
 
+-- NoConflictingScheduleTrigger
+DELIMITER |
+CREATE TRIGGER NoConflictingScheduleTrigger
+  AFTER INSERT ON Schedules
+  FOR EACH ROW
+  BEGIN
+    IF EXISTS (
+      SELECT * FROM Schedules
+        WHERE Schedules.personID = NEW.personID
+        AND (
+          NEW.startTime BETWEEN Schedules.startTime AND Schedules.endTime
+          OR 
+          NEW.endTime BETWEEN Schedules.startTime AND Schedules.endTime
+        )
+    )
+      THEN  
+      signal sqlstate '45000' set message_text = 'Cant schedule employee on conflicting times';
+      DELETE FROM Schedules 
+        WHERE Schedules.scheduleID = NEW.scheduleID;
+    END IF;
+  END;
+|
+
+DELIMITER ;
+
 -- Trigger that checks if the person scheduled has been vaccinated in the past 6 months. 
 -- Basically checks the number of vaccinations done in the past 6 months. If it returns 0, then an error is signaled. Otherwise the person is vaccinated in the past 6 months.
 CREATE TRIGGER ScheduleVaccineCheck
