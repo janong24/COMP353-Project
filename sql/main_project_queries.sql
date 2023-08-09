@@ -124,24 +124,24 @@ SELECT f.province, f.name, f.capacity, r.numberOfTeachersInfectedInPastTwoWeeks,
   ORDER BY f.province, r.numberOfTeachersInfectedInPastTwoWeeks;
 
 -- 16
-SELECT p.firstName, p.lastName, p.city, r.numberOfManagementFacilities, r2.numberOfEducationalFacilities
-  FROM Ministries AS m
-  JOIN Persons AS p ON m.ministerOfEducationID = p.personID
-  JOIN (
-    SELECT f.ministryID, COUNT(f.facilityID) AS 'numberOfManagementFacilities'
-      FROM Facilities AS f
-      JOIN FacilityTypes AS ft ON f.facilityTypeID = ft.typeID
-      WHERE ft.typeName = 'Management'
-      GROUP BY f.ministryID
-  ) r on m.MinistryID = r.ministryID
-  JOIN (
-    SELECT f.ministryID, COUNT(f.facilityID) AS 'numberOfEducationalFacilities'
-      FROM Facilities AS f
-      JOIN FacilityTypes AS ft ON f.facilityTypeID = ft.typeID
-      WHERE ft.typeName = 'Education'
-      GROUP BY f.ministryID
-  ) r2 on m.MinistryID = r2.ministryID
-  ORDER BY p.city ASC, r2.numberOfEducationalFacilities DESC;
+SELECT p.FirstName, p.LastName, p.City, IFNULL(r.numberOfManagementFacilities, 0) AS numberOfManagementFacilities, IFNULL(r2.numberOfEducationalFacilities, 0) AS numberOfEducationalFacilities
+FROM Ministries AS m
+JOIN Persons AS p ON m.MinisterOfEducationID = p.PersonID
+LEFT JOIN (
+  SELECT f.MinistryID, COUNT(f.FacilityID) AS numberOfManagementFacilities
+  FROM Facilities AS f
+  JOIN FacilityTypes AS ft ON f.FacilityTypeID = ft.TypeID
+  WHERE ft.TypeName = 'Management'
+  GROUP BY f.MinistryID
+) r on m.MinistryID = r.MinistryID
+LEFT JOIN (
+  SELECT f.MinistryID, COUNT(f.FacilityID) AS numberOfEducationalFacilities
+  FROM Facilities AS f
+  JOIN FacilityTypes AS ft ON f.FacilityTypeID = ft.TypeID
+  WHERE ft.TypeName = 'Education'
+  GROUP BY f.MinistryID
+) r2 on m.MinistryID = r2.MinistryID
+ORDER BY p.City ASC, r2.numberOfEducationalFacilities DESC;
 
 -- 17 TODO TEST
 SELECT p.firstName, p.lastName, r2.firstDayAsTeacher, ft.typeName, p.dateOfBirth, p.email, SUM(TIMESTAMPDIFF(HOUR, s.startTime, s.endTime)) AS 'totalHours'
