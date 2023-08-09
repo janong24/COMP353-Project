@@ -1,3 +1,4 @@
+
 -- Populating Tables
 
 
@@ -169,6 +170,5 @@ INSERT INTO Schedules (scheduleID, personID, facilityID, startTime, endTime) VAL
 
 
 -- EmailContent(emailContentID, emailSubject, emailBody, emailDate)
-
 
 -- EmailLogs(emailContentID, facilityID, emailReceiverID)
