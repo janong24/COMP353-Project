@@ -98,30 +98,36 @@ SELECT p.personID, p.firstname, p.lastName, SUM(TIMESTAMPDIFF(HOUR, s.startTime,
   ORDER BY p.firstName, p.lastName;
 
 -- 15
-SELECT f.province, f.name, f.capacity, r.numberOfTeachersInfectedInPastTwoWeeks, r2.numberOfStudentsInfectedInPastTwoWeeks
-  FROM Facilities AS f
-  JOIN FacilityTypes AS ft ON f.facilityTypeID = ft.typeID
-  JOIN (
-    SELECT f.facilityID, COUNT(p.personID) AS 'numberOfTeachersInfectedInPastTwoWeeks'
-      FROM Persons AS p
-      JOIN EmployeeRegistrations AS er ON p.personID = er.personID
-      JOIN EmployeeType AS et ON er.employeeTypeID = et.employeeTypeID
-      JOIN Facilities AS f ON er.facilityID = f.facilityID
-      JOIN Infections AS i ON p.personID = i.personID
-      WHERE i.dateOfInfection >= DATE_ADD(CURRENT_DATE(), INTERVAL -14 DAY) AND CURRENT_DATE AND et.employeeType = 'Teacher'
-      GROUP BY f.facilityID
-  ) r ON f.facilityID = r.facilityID
-  JOIN (
-    SELECT f.facilityID, COUNT(p.personID) AS 'numberOfStudentsInfectedInPastTwoWeeks'
-      FROM Persons AS p
-      JOIN StudentRegistrations AS sr ON p.personID = sr.personID
-      JOIN Facilities AS f ON sr.facilityID = f.facilityID
-      JOIN Infections AS i ON p.personID = i.personID
-      WHERE i.dateOfInfection >= DATE_ADD(CURRENT_DATE(), INTERVAL -14 DAY)
-      GROUP BY f.facilityID
-  ) r2 ON f.facilityID = r2.facilityID
-  WHERE ft.subTypeName = 'High School'
-  ORDER BY f.province, r.numberOfTeachersInfectedInPastTwoWeeks;
+SELECT f.Province, f.Name AS SchoolName, f.Capacity, IFNULL(ti.TeacherCount, 0) AS TeachersInfectedCount, IFNULL(si.StudentCount, 0) AS StudentsInfectedCount
+FROM Facilities f
+LEFT JOIN (
+  SELECT 
+      f2.FacilityID, 
+      COUNT(DISTINCT e.PersonID) AS TeacherCount
+  FROM Facilities f2
+  JOIN EmployeeRegistrations e ON f2.FacilityID = e.FacilityID
+  JOIN Infections i ON e.PersonID = i.PersonID
+  WHERE f2.FacilityTypeID = (SELECT TypeID FROM FacilityTypes WHERE SubTypeName = 'High School')
+    AND i.DateOfInfection >= CURDATE() - INTERVAL 2 WEEK
+    AND i.TypeID = (SELECT TypeID FROM TypeOfInfections WHERE TypeName = 'COVID-19')
+    AND e.EmployeeTypeID = (SELECT EmployeeTypeID FROM EmployeeType WHERE EmployeeType = 'Teacher')
+  GROUP BY f2.FacilityID
+) AS ti ON f.FacilityID = ti.FacilityID
+LEFT JOIN (
+  SELECT 
+      f3.FacilityID, 
+      COUNT(DISTINCT s.PersonID) AS StudentCount
+  FROM Facilities f3
+  JOIN StudentRegistrations s ON f3.FacilityID = s.FacilityID
+  JOIN Infections i ON s.PersonID = i.PersonID
+  WHERE f3.FacilityTypeID = (SELECT TypeID FROM FacilityTypes WHERE SubTypeName = 'High School')
+    AND i.DateOfInfection >= CURDATE() - INTERVAL 2 WEEK
+    AND i.TypeID = (SELECT TypeID FROM TypeOfInfections WHERE TypeName = 'COVID-19')
+    AND s.SchoolTypeID = (SELECT SchoolTypeID FROM SchoolType WHERE SchoolType = 'High School')
+  GROUP BY f3.FacilityID
+) AS si ON f.FacilityID = si.FacilityID
+WHERE f.FacilityTypeID = (SELECT TypeID FROM FacilityTypes WHERE SubTypeName = 'High School')
+ORDER BY f.Province ASC, IFNULL(ti.TeacherCount, 0) ASC;
 
 -- 16
 SELECT p.FirstName, p.LastName, p.City, IFNULL(r.numberOfManagementFacilities, 0) AS numberOfManagementFacilities, IFNULL(r2.numberOfEducationalFacilities, 0) AS numberOfEducationalFacilities
