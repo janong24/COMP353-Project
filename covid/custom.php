@@ -43,7 +43,7 @@ switch ($query) {
         JOIN EmployeeType AS et ON er.employeeTypeID = et.employeeTypeID
         GROUP BY er.facilityID
     ) r ON f.facilityID = r.FacilityID
-    JOIN (
+    LEFT JOIN (
       SELECT er.facilityID, et.employeeType, p.firstName AS 'principalFirstName', p.lastName AS 'principalLastName'
         FROM EmployeeRegistrations AS er
         JOIN EmployeeType AS et ON er.employeeTypeID = et.employeeTypeID
@@ -69,8 +69,8 @@ switch ($query) {
     SELECT f.name, DATE(s.startTime) AS 'dayOfTheYear', s.startTime, s.endTime
     FROM Schedules AS s
     JOIN Facilities AS f ON s.facilityID = f.facilityID
-    WHERE DATE(s.startTime) >= specificPeriodStartTime
-    AND DATE(s.endTime) <= specificPeriodEndTime
+    WHERE DATE(s.startTime) >= " . $specificPeriodStartTime . "
+    AND DATE(s.endTime) <= " . $specificPeriodEndTime . "
     AND s.personID = " . $employee . "
     ORDER BY f.name, DATE(s.startTime), s.startTime;
     ";
@@ -83,7 +83,10 @@ switch ($query) {
     JOIN Facilities AS f ON er.facilityID = f.facilityID
     JOIN EmployeeType AS et ON er.employeeTypeID = et.employeeTypeID
     JOIN Infections AS i ON p.personID = i.personID
+    JOIN TypeOfInfections AS ti on i.TypeID = ti.TypeID
     WHERE et.employeeType = 'Teacher'
+        AND ti.TypeName = 'COVID-19'
+        AND i.dateOfInfection BETWEEN DATE_SUB(CURDATE(), INTERVAL 2 WEEK) AND CURDATE()
     ORDER BY f.name, p.firstName;
     ";
     break;
@@ -98,7 +101,7 @@ switch ($query) {
     break;
   case "q13":
     $query = "
-    SELECT p.firstName, p.lastName, ft.typeName AS 'role'
+    SELECT s.facilityID, p.firstName, p.lastName, ft.typeName AS 'role'
     FROM Schedules AS s
     JOIN Persons AS p ON s.personID = p.personID
     JOIN Facilities AS f ON s.facilityID = f.facilityID
@@ -109,19 +112,20 @@ switch ($query) {
     AND DATE(s.startTime) >= DATE_ADD(CURRENT_DATE(), INTERVAL -14 DAY)
     AND DATE(s.endTime) <= CURRENT_DATE()
     AND s.facilityID = specificFacilityID " . $facility . "
+    GROUP BY p.personID
     ORDER BY ft.typeName, p.firstName;
     ";
     break;
   case "q14":
     $query = "
-    SELECT s.facilityID, SUM(DATEDIFF(HOUR, s.endTime, s.startTime)) AS 'totalHours'
+    SELECT s.facilityID, p.personID, SUM(TIMESTAMPDIFF(HOUR, s.startTime, s.endTime)) AS 'totalHours', s.startTime, s.endTime
     FROM Schedules AS s
     JOIN Persons AS p ON s.personID = p.personID
     JOIN EmployeeRegistrations AS er ON p.personID = er.personID
     JOIN EmployeeType AS et ON er.employeeTypeID = et.employeeTypeID
     WHERE et.employeeType = 'Teacher'
-    AND DATE(s.startTime) >= specificPeriodStartTime
-    AND DATE(s.endTime) <= specificPeriodEndTime
+    AND DATE(s.startTime) >= " . $specificPeriodStartTime . "
+    AND DATE(s.endTime) <= " . $specificPeriodEndTime . "
     AND s.facilityID = " . $facility . "
     ORDER BY p.firstName, p.lastName;
     ";
@@ -151,7 +155,7 @@ switch ($query) {
         GROUP BY f.facilityID
     ) r2 ON f.facilityID = r2.facilityID
     WHERE ft.subTypeName = 'High School'
-    ORDER BY f.province, r.teachersInfectedInPastTwoWeeks;
+    ORDER BY f.province, r.numberOfTeachersInfectedInPastTwoWeeks;
     ";
     break;
   case "q16":
@@ -178,7 +182,7 @@ switch ($query) {
     break;
   case "q17":
     $query = "
-    SELECT p.firstName, p.lastName, r2.firstDayAsTeacher, ft.typeName, p.dateOfBirth, p.email
+    SELECT p.firstName, p.lastName, r2.firstDayAsTeacher, ft.typeName, p.dateOfBirth, p.email, SUM(TIMESTAMPDIFF(HOUR, s.startTime, s.endTime)) AS 'totalHours'
     FROM EmployeeRegistrations AS er
     JOIN EmployeeType AS et ON er.employeeTypeID = et.employeeTypeID
     JOIN Persons AS p ON er.personID = p.personID
@@ -200,10 +204,6 @@ switch ($query) {
     ORDER BY ft.role, p.firstName, p.lastName;
     ";
     break;
-  case "q18":
-    $query = "
-    
-    ";
 }
 
 // Execute query if not empty
@@ -267,7 +267,6 @@ if (!empty($query)) {
         <option value="q15">Q15. For every high school, provide data on COVID-19 infections.</option>
         <option value="q16">Q16. For every ministry in the system, provide its details.</option>
         <option value="q17">Q17. For every ministry in the system, provide its minister's details.</option>
-        <option value="q18">Q18. Get details of the counselor(s) who are currently working and has been infected by COVID-19 at least three times.</option>
       </select>
       <br/>
       <select id="hidden_employees" name="employee" default="" required>
