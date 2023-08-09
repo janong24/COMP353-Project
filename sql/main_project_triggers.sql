@@ -1,4 +1,4 @@
--- Infection Trigger
+-- Infected Teacher Trigger
 DELIMITER |
 CREATE TRIGGER TeacherInfectedTrigger
   AFTER INSERT ON Infections
@@ -43,6 +43,31 @@ CREATE TRIGGER TeacherInfectedTrigger
           WHERE Assignments.teacherID = NEW.personID
           AND Assignments.dueDate <= DATE_ADD(CURRENT_DATE(), INTERVAL 14 DAY)
           AND Assignments.dueDate >= CURRENT_DATE();
+    END IF;
+  END;
+|
+
+DELIMITER ;
+
+-- NoConflictingScheduleTrigger
+DELIMITER |
+CREATE TRIGGER NoConflictingScheduleTrigger
+  AFTER INSERT ON Schedules
+  FOR EACH ROW
+  BEGIN
+    IF EXISTS (
+      SELECT * FROM Schedules
+        WHERE Schedules.personID = NEW.personID
+        AND (
+          NEW.startTime BETWEEN Schedules.startTime AND Schedules.endTime
+          OR 
+          NEW.endTime BETWEEN Schedules.startTime AND Schedules.endTime
+        )
+    )
+      THEN  
+      signal sqlstate '45000' set message_text = 'Cant schedule employee on conflicting times';
+      DELETE FROM Schedules 
+        WHERE Schedules.scheduleID = NEW.scheduleID;
     END IF;
   END;
 |
