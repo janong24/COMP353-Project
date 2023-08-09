@@ -14,7 +14,7 @@ SELECT f.name, f.address, f.city, f.province, f.postalCode, f.phoneNumber, f.web
       JOIN EmployeeType AS et ON er.employeeTypeID = et.employeeTypeID
       GROUP BY er.facilityID
   ) r ON f.facilityID = r.FacilityID
-  JOIN (
+  LEFT JOIN (
     SELECT er.facilityID, et.employeeType, p.firstName AS 'principalFirstName', p.lastName AS 'principalLastName'
       FROM EmployeeRegistrations AS er
       JOIN EmployeeType AS et ON er.employeeTypeID = et.employeeTypeID
