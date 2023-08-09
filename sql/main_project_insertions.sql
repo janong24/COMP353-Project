@@ -91,7 +91,7 @@ INSERT INTO Infections VALUES(33, DATE('2023-08-05'), 1, 4);
 INSERT INTO Infections VALUES(34, DATE('2023-08-09'), 1, 8);
 INSERT INTO Infections VALUES(35, DATE('2023-08-04'), 1, 5);
 INSERT INTO Infections VALUES(36, DATE('2023-08-01'), 1, 9);
-INSERT INTO Infections VALUES(36, DATE('2023-08-01'), 1, 10);
+INSERT INTO Infections VALUES(37, DATE('2023-08-01'), 1, 10);
 
 -- Vaccinations(VaccinationID, VaccinationDate, DoseNumber, VaccineID [(1, Pfizer), (2, Moderna), (3, AztraZeneca), (4, Johnson & Johnson)], PersonID)--
 INSERT INTO Vaccinations VALUES(1, DATE('2019-04-04'), 1, 1, 2);
