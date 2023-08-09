@@ -90,4 +90,22 @@ CREATE TRIGGER CheckStudentRegistration
      END IF;
 END;
 
-
+-- Trigger that checks overlapping employee registration dates. Same thing as Student registration
+-- Basically tries to look for atleast 1 registration with EndDate Null, or StartDate of new registration between a current registration witha  StartDate and EndDate.
+CREATE TRIGGER CheckEmployeeRegistration
+BEFORE INSERT ON EmployeeRegistrations
+FOR EACH ROW
+BEGIN
+   IF EXISTS (
+      SELECT 1 
+      FROM EmployeeRegistrations 
+      WHERE EmployeeID = NEW.EmployeeID
+      AND (
+         (NEW.StartDate BETWEEN StartDate AND IFNULL(EndDate, NEW.StartDate))
+         OR (NEW.EndDate IS NOT NULL AND NEW.EndDate BETWEEN StartDate AND IFNULL(EndDate, NEW.EndDate))
+      )
+   ) THEN
+      SIGNAL SQLSTATE '45000'
+      SET MESSAGE_TEXT = 'An employee cannot be registered at more than one facility at the same time';
+   END IF;
+END;
