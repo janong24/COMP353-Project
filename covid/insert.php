@@ -32,7 +32,7 @@
   $dml = "INSERT INTO " . $tableName . " (" . $keysWithCommas . ") VALUES (" . $valuesWithCommas . ");";
   $query = $conn->prepare($dml);
 
-  //execute the query
+  // execute the query
   if($query->execute()) {
     header("Location: ./success.php?table=" . $tableName . "");
   } else {

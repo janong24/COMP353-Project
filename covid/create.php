@@ -7,7 +7,16 @@ require_once '../functions.php';
     $tableName = "";
   }
 
+    $facilities = getFacilities();
+    $persons = getPersons();
+    $employees = getEmployees();
+    $ministries = getMinistries();
+    $facilityTypes = getFacilityTypes();
+    $vaccines = getVaccines();
+    $schoolTypes = getSchoolTypes();
+    
     $columnList = getColumnTypes($tableName);
+    $primKey = FALSE;
 ?>
 
 <!DOCTYPE html>
@@ -27,11 +36,22 @@ require_once '../functions.php';
       <input type="hidden" name="table" value="<?= $tableName ?>">
       <?php foreach ($columnList as $column) { ?>
         <label for="<?= $column['Field'] ?>"><b><?= $column['Field'] ?></b> <?= $column['Type'] ?></label><br/>
-        <?php if($column['Type'] == "date") { ?>
-          <input type="date" name="<?= $column['Field'] ?>" id="<?= $column['Field'] ?>" required><br/>
+        <?php if($column['Type'] == "datetime") { ?>
+          <input type="datetime-local" name="<?= $column['Field'] ?>" id="<?= $column['Field'] ?>" required><br/>
         <?php } else if(str_contains($column['Type'], "int")) { ?>
           <?php if(str_contains($column['Field'], "ID")) { ?>
-            <label for="<?= $column['Field'] ?>">(Auto-generated)</label><br/>
+            <?php if ($primKey != TRUE) { ?>
+              <label for="<?= $column['Field'] ?>">(Auto-generated)</label><br/>
+              <?php $primKey = TRUE; ?>
+            <?php } else {?>
+              <!-- <select id="hidden_employees" name="employee" default="" required>
+                  <?php foreach ($employees as $employee) { ?>
+                  <?php $record = $employee['PersonID'] . ' - ' . $employee['FirstName'] . ' ' . $employee['LastName']?>
+                  <option value="<?= $employee['PersonID'] ?>"><?= $record ?></option>
+                <?php } ?>
+              </select> -->
+              <input type="number" name="<?= $column['Field'] ?>" id="<?= $column['Field'] ?>" required><br/>
+            <?php } ?>
           <?php } else {?>
             <input type="number" name="<?= $column['Field'] ?>" id="<?= $column['Field'] ?>" required><br/>
           <?php } ?>

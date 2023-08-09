@@ -28,6 +28,20 @@ function getFacilities () {
   }
 }
 
+//retrieve all persons
+function getPersons () {
+  $sql = "SELECT DISTINCT p.PersonID, p.FirstName, p.LastName FROM Persons p;";
+  global $conn;
+  try {
+    $statement = $conn->prepare($sql);
+    $statement->execute();
+    $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+    return $data;
+  } catch (PDOException $e) {
+    trigger_error("Error: Failed to get Persons.");
+  }
+}
+
 //retrieve all employees
 function getEmployees () {
   $sql = "SELECT DISTINCT p.PersonID, p.FirstName, p.LastName FROM EmployeeRegistrations er JOIN Persons p ON er.PersonID = p.PersonID ORDER BY p.PersonID ASC;";
@@ -42,6 +56,61 @@ function getEmployees () {
   }
 }
 
+//retrieve all ministries
+function getMinistries () {
+  $sql = "SELECT MinistryID, Name FROM ministries";
+  global $conn;
+  try {
+    $statement = $conn->prepare($sql);
+    $statement->execute();
+    $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+    return $data;
+  } catch (PDOException $e) {
+    trigger_error("Error: Failed to get Ministries.");
+  }
+}
+
+//retrieve all facility types
+function getFacilityTypes () {
+  $sql = "SELECT TypeID, SubTypeName Name FROM facilitytypes";
+  global $conn;
+  try {
+    $statement = $conn->prepare($sql);
+    $statement->execute();
+    $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+    return $data;
+  } catch (PDOException $e) {
+    trigger_error("Error: Failed to get Facility Types.");
+  }
+}
+
+//retrieve all vaccines
+function getVaccines () {
+  $sql = "SELECT VaccineID, VaccineName Name FROM typeofvaccinations";
+  global $conn;
+  try {
+    $statement = $conn->prepare($sql);
+    $statement->execute();
+    $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+    return $data;
+  } catch (PDOException $e) {
+    trigger_error("Error: Failed to get Vaccines.");
+  }
+}
+
+//retrieve all school types
+function getSchoolTypes () {
+  $sql = "SELECT SchoolTypeID, SchoolType Name FROM schooltype";
+  global $conn;
+  try {
+    $statement = $conn->prepare($sql);
+    $statement->execute();
+    $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+    return $data;
+  } catch (PDOException $e) {
+    trigger_error("Error: Failed to get School Types.");
+  }
+}
 
 //retrieve all columns from a table with their corresponding data type
 function getColumnTypes ($table) {
