@@ -38,6 +38,12 @@ INSERT INTO Persons VALUES(25, 'Mike', 'Teller', 2018-10-23, 'TELL10102387', 202
 INSERT INTO Persons VALUES(26, 'Ben', 'Dover', 2010-10-23, 'DOVER10102387', 2026-10-23, '514-121-1212', '6833 boul. Picodon', 'Montreal', 'QC', 'H1X8Q3', 'Canada', 'bendover@gmail.com');
 INSERT INTO Persons VALUES(27, 'Mike', 'Hauck', 2010-10-23, 'HAUCK10102387', 2026-10-23, '514-121-1212', '6833 boul. Picodon', 'Montreal', 'QC', 'H1X8Q3', 'Canada', 'mikehauck@gmail.com');
 
+-- for q9
+INSERT INTO Persons VALUES(28, 'Jim', 'Biden', DATE('2017-09-06'), 'TEST', DATE('2028-09-06'), '514-512-5151', '72 Test Street', 'Belleville', 'ON', 'K0B1D4', 'Germany', 'test@gmail.com');
+INSERT INTO Persons VALUES(29, 'Joe', 'Biden', DATE('2017-09-06'), 'TEST', DATE('2028-09-06'), '514-512-5151', '72 Test Street', 'Belleville', 'ON', 'K0B1D4', 'Germany', 'test@gmail.com');
+INSERT INTO Persons VALUES(30, 'Jack', 'Biden', DATE('2017-09-06'), 'TEST', DATE('2028-09-06'), '514-512-5151', '72 Test Street', 'Belleville', 'ON', 'K0B1D4', 'Germany', 'test@gmail.com');
+INSERT INTO Persons VALUES(31, 'Joseph', 'Biden', DATE('2017-09-06'), 'TEST', DATE('2028-09-06'), '514-512-5151', '72 Test Street', 'Belleville', 'ON', 'K0B1D4', 'Germany', 'test@gmail.com');
+
 -- End of Persons--
 
 -- Infections(InfectionID, DateOfInfection, TypeID [(1, COVID-19), (2, SARS-CoV-2 Variant), (3, Other)], PersonID)--
@@ -126,6 +132,11 @@ INSERT INTO EmployeeRegistrations VALUES(9, 5, '2022-09-18', NULL, 1, 4);
 INSERT INTO EmployeeRegistrations VALUES(10, 7, '2022-11-30', NULL, 1, 5);
 INSERT INTO EmployeeRegistrations VALUES(26, 9, '2023-01-01', NULL, 5, NULL);
 INSERT INTO EmployeeRegistrations VALUES(25, 10, '2023-01-01', NULL, 5, NULL);
+
+-- for q9
+INSERT INTO EmployeeRegistrations VALUES(28, 1, DATE('2023-01-01'), NULL, 5, NULL);
+INSERT INTO EmployeeRegistrations VALUES(29, 1, DATE('2023-01-01'), NULL, 5, NULL);
+INSERT INTO EmployeeRegistrations VALUES(30, 1, DATE('2023-01-01'), NULL, 5, NULL);
 
 -- Schedules(scheduleID, personID, facilityID, startTime, endTime)
 INSERT INTO Schedules VALUES(1, 25, 10, '2012-08-13 11:39:51', '2012-08-13 17:39:51');
