@@ -1,42 +1,39 @@
 -- Populating Tables
 
+-- Persons --
+INSERT INTO Persons VALUES(1, 'Joyce', 'Anderson', DATE('1961-05-04'), 'ANDJ61050472', DATE('2025-05-04'), '514-248-1537', '4999 boul. Edouard-Montpetit', 'Montreal', 'QC', 'H3W4B9', 'Canada', 'janderson@gmail.com');
+INSERT INTO Persons VALUES(2, 'Jacob', 'West', DATE('1982-05-31'), 'WESJ82053142', DATE('2026-05-31'), '514-176-5643', '2081 rue Legare', 'Montreal', 'QC', 'H3W4B9', 'Canada', 'jwest@gmail.com');
+INSERT INTO Persons VALUES(3, 'Michael', 'Cunningham', DATE('1982-12-08'), 'CUNM82120812', DATE('2027-12-08'), '514-579-1379', '231 rue Stanley', 'Montreal', 'QC', 'H3W4B9', 'Canada', 'mcunningham@gmail.com');
+INSERT INTO Persons VALUES(4, 'Cherry', 'Morris', DATE('1984-06-23'), 'MORC84062379', DATE('2025-06-23'), '514-457-4468', '9512 ch. de la Coe-des-Neiges', 'Montreal', 'QC', 'H3W4B9', 'Canada', 'cmorris@gmail.com');
+INSERT INTO Persons VALUES(5, 'Grace', 'Rogers', DATE('1991-10-09'), 'ROGG91100955', DATE('2026-10-09'), '514-005-4861', '20 Park Street', 'Kingston', 'ON', 'K1K9G6', 'USA', 'grogers@gmail.com');
+INSERT INTO Persons VALUES(6, 'Edwin', 'Davis', DATE('1993-01-06'), 'EDWD93010654', DATE('2027-01-06'), '514-337-9147', '416 Maple Road', 'Cornwall', 'ON', 'K0B8G3', 'USA', 'edavis@gmail.com');
+INSERT INTO Persons VALUES(7, 'Connie', 'Armstrong', DATE('1997-09-08'), 'ARMC97090834', DATE('2025-09-08'), '514-115-8111', '1867 rue Saint-Martin', 'Laval', 'QC', 'H7W1B8', 'Canada', 'carmstrong@gmail.com');
+INSERT INTO Persons VALUES(8, 'Justin', 'Miller', DATE('2004-02-25'), 'MILJ04022595', DATE('2026-02-05'), '514-974-5451', '8177 rue Saint-Auguste', 'Brossard', 'QC', 'J4N0G3', 'Canada', 'jmiller@gmail.com');
+INSERT INTO Persons VALUES(9, 'Edwin', 'Hall', DATE('1996-02-15'), 'HALE16021539', DATE('2027-02-15'), '514-911-9115', '11 Leaf Crescent', 'Cornwall', 'ON', 'K0B1D4', 'USA', 'ehall@gmail.com');
+INSERT INTO Persons VALUES(10, 'Roger', 'Smith', DATE('1992-07-30'), 'SMIR22073081', DATE('2026-07-30'), '514-334-5148', '6833 boul. Saint-Laurent', 'Montreal', 'QC', 'H1X8Q3', 'Canada', 'rsmith@gmail.com');
 
+-- Students --
+INSERT INTO Persons VALUES(11, 'Marlie', 'Werner', DATE('2004-12-19'), 'WERM04121957', DATE('2025-12-19'), '514-134-6798', '4999 boul. des Causses', 'Montreal', 'QC', 'H3W4B9', 'Canada', 'mwerner@gmail.com');
+INSERT INTO Persons VALUES(12, 'Quinn', 'Esparza', DATE('2010-06-29'), 'ESPQ10062941', DATE('2026-06-29'), '514-224-3486', '2081 rue de Meaux', 'Montreal', 'QC', 'H3W4B9', 'Mexico', 'qesparza@gmail.com');
+INSERT INTO Persons VALUES(13, 'Tessa', 'Richard', DATE('2012-09-12'), 'RICT12091243', DATE('2027-09-12'), '514-514-5147', '231 rue de Melun', 'Montreal', 'QC', 'H3W4B9', 'Canada', 'trichard@gmail.com');
+INSERT INTO Persons VALUES(14, 'Cassie', 'Lloyd', DATE('2012-11-28'), 'LLOC12112801', DATE('2025-11-28'), '514-997-5214', '9512 ch. Brillat-Savarin', 'Montreal', 'QC', 'H3W4B9', 'Canada', 'clloyd@gmail.com');
+INSERT INTO Persons VALUES(15, 'Julien', 'Singleton', DATE('2013-10-15'), 'SINJ13101597', DATE('2026-10-15'), '514-105-6789', '20 Brie Street', 'Ottawa', 'ON', 'K1K9G6', 'Canada', 'jsingleton@gmail.com');
+INSERT INTO Persons VALUES(16, 'Dale', 'Bond', DATE('2015-03-09'), 'BOND16030907', DATE('2027-03-09'), '514-115-2357', '416 Gruyere Road', 'Alexandria', 'ON', 'K0B8G3', 'Canada', 'dbond@gmail.com');
+INSERT INTO Persons VALUES(17, 'Armando', 'Morales', DATE('2016-05-26'), 'MORA16052677', DATE('2025-05-26'), '514-889-5462', '1867 rue Emmental', 'Laval', 'QC', 'H7W1B8', 'Mexico', 'amorales@gmail.com');
+INSERT INTO Persons VALUES(18, 'Cara', 'Manning', DATE('2016-06-03'), 'MANC16060333', DATE('2026-06-03'), '514-554-5357', '8177 rue Faisselle', 'Brossard', 'QC', 'J4N0G3', 'Canada', 'cmanning@gmail.com');
+INSERT INTO Persons VALUES(19, 'Keenan', 'Mueller', DATE('2016-09-06'), 'MUEK16090657', DATE('2027-09-06'), '514-515-5151', '11 Morbier Crescent', 'Belleville', 'ON', 'K0B1D4', 'Germany', 'kmueller@gmail.com');
+INSERT INTO Persons VALUES(20, 'Roger', 'Smith', DATE('2010-10-23'), 'SMIR10102387', DATE('2026-10-23'), '514-121-1212', '6833 boul. Picodon', 'Montreal', 'QC', 'H1X8Q3', 'Canada', 'rsmith@gmail.com');
 
--- Persons(PersonID, FirstName, LastName, DateOfBirth, MedicareNumber, MedicareExpiry, TelephoneNumber, Address, City, Province, PostalCode, Citizenship, Email)--
--- Employees--
-INSERT INTO Persons VALUES(1, 'Joyce', 'Anderson', 1961-05-04, 'ANDJ61050472', 2025-05-04, '514-248-1537', '4999 boul. Edouard-Montpetit', 'Montreal', 'QC', 'H3W4B9', 'Canada', 'janderson@gmail.com');
-INSERT INTO Persons VALUES(2, 'Jacob', 'West', 1982-05-31, 'WESJ82053142', 2026-05-31, '514-176-5643', '2081 rue Legare', 'Montreal', 'QC', 'H3W4B9', 'Canada', 'jwest@gmail.com');
-INSERT INTO Persons VALUES(3, 'Michael', 'Cunningham', 1982-12-08, 'CUNM82120812', 2027-12-08, '514-579-1379', '231 rue Stanley', 'Montreal', 'QC', 'H3W4B9', 'Canada', 'mcunningham@gmail.com');
-INSERT INTO Persons VALUES(4, 'Cherry', 'Morris', 1984-06-23, 'MORC84062379', 2025-06-23, '514-457-4468', '9512 ch. de la Coe-des-Neiges', 'Montreal', 'QC', 'H3W4B9', 'Canada', 'cmorris@gmail.com');
-INSERT INTO Persons VALUES(5, 'Grace', 'Rogers', 1991-10-09, 'ROGG91100955', 2026-10-09, '514-005-4861', '20 Park Street', 'Kingston', 'ON', 'K1K9G6', 'USA', 'grogers@gmail.com');
-INSERT INTO Persons VALUES(6, 'Edwin', 'Davis', 1993-01-06, 'EDWD93010654', 2027-01-06, '514-337-9147', '416 Maple Road', 'Cornwall', 'ON', 'K0B8G3', 'USA', 'edavis@gmail.com');
-INSERT INTO Persons VALUES(7, 'Connie', 'Armstrong', 1997-09-08, 'ARMC97090834', 2025-09-08, '514-115-8111', '1867 rue Saint-Martin', 'Laval', 'QC', 'H7W1B8', 'Canada', 'carmstrong@gmail.com');
-INSERT INTO Persons VALUES(8, 'Justin', 'Miller', 2004-02-25, 'MILJ04022595', 2026-02-05, '514-974-5451', '8177 rue Saint-Auguste', 'Brossard', 'QC', 'J4N0G3', 'Canada', 'jmiller@gmail.com');
-INSERT INTO Persons VALUES(9, 'Edwin', 'Hall', 1996-02-15, 'HALE16021539', 2027-02-15, '514-911-9115', '11 Leaf Crescent', 'Cornwall', 'ON', 'K0B1D4', 'USA', 'ehall@gmail.com');
-INSERT INTO Persons VALUES(10, 'Roger', 'Smith', 1992-07-30, 'SMIR22073081', 2026-07-30, '514-334-5148', '6833 boul. Saint-Laurent', 'Montreal', 'QC', 'H1X8Q3', 'Canada', 'rsmith@gmail.com');
+-- Ministers Of Education --
+INSERT INTO Persons VALUES(21, 'Amanda', 'Hamilton', DATE('1965-07-21'), 'HAMM65072135', DATE('2028-07-21'), '514-758-9642', '1234 Parliament Hill', 'Ottawa', 'ON', 'K1A0A9', 'Canada', 'ahamilton@gmail.com');
+INSERT INTO Persons VALUES(22, 'William', 'Bradley', DATE('1970-03-15'), 'BRDW70031529', DATE('2027-03-15'), '514-362-9863', '5678 Governor Dr.', 'Toronto', 'ON', 'M5H2N2', 'Canada', 'wbradley@gmail.com');
+INSERT INTO Persons VALUES(23, 'Lucy', 'Patterson', DATE('1972-11-05'), 'PATL72110514', DATE('2028-11-05'), '514-473-2376', '9101 Premier Blvd', 'Vancouver', 'BC', 'V5K0A1', 'Canada', 'lpatterson@gmail.com');
 
--- Students--
-INSERT INTO Persons VALUES(11, 'Marlie', 'Werner', 2004-12-19, 'WERM04121957', 2025-12-19, '514-134-6798', '4999 boul. des Causses', 'Montreal', 'QC', 'H3W4B9', 'Canada', 'mwerner@gmail.com');
-INSERT INTO Persons VALUES(12, 'Quinn', 'Esparza', 2010-06-29, 'ESPQ10062941', 2026-06-29, '514-224-3486', '2081 rue de Meaux', 'Montreal', 'QC', 'H3W4B9', 'Mexico', 'qesparza@gmail.com');
-INSERT INTO Persons VALUES(13, 'Tessa', 'Richard', 2012-09-12, 'RICT12091243', 2027-09-12, '514-514-5147', '231 rue de Melun', 'Montreal', 'QC', 'H3W4B9', 'Canada', 'trichard@gmail.com');
-INSERT INTO Persons VALUES(14, 'Cassie', 'Lloyd', 2012-11-28, 'LLOC12112801', 2025-11-28, '514-997-5214', '9512 ch. Brillat-Savarin', 'Montreal', 'QC', 'H3W4B9', 'Canada', 'clloyd@gmail.com');
-INSERT INTO Persons VALUES(15, 'Julien', 'Singleton', 2013-10-15, 'SINJ13101597', 2026-10-15, '514-105-6789', '20 Brie Street', 'Ottawa', 'ON', 'K1K9G6', 'Canada', 'jsingleton@gmail.com');
-INSERT INTO Persons VALUES(16, 'Dale', 'Bond', 2015-03-09, 'BOND16030907', 2027-03-09, '514-115-2357', '416 Gruyere Road', 'Alexandria', 'ON', 'K0B8G3', 'Canada', 'dbond@gmail.com');
-INSERT INTO Persons VALUES(17, 'Armando', 'Morales', 2016-05-26, 'MORA16052677', 2025-05-26, '514-889-5462', '1867 rue Emmental', 'Laval', 'QC', 'H7W1B8', 'Mexico', 'amorales@gmail.com');
-INSERT INTO Persons VALUES(18, 'Cara', 'Manning', 2016-06-03, 'MANC16060333', 2026-06-03, '514-554-5357', '8177 rue Faisselle', 'Brossard', 'QC', 'J4N0G3', 'Canada', 'cmanning@gmail.com');
-INSERT INTO Persons VALUES(19, 'Keenan', 'Mueller', 2016-09-06, 'MUEK16090657', 2027-09-06, '514-515-5151', '11 Morbier Crescent', 'Belleville', 'ON', 'K0B1D4', 'Germany', 'kmueller@gmail.com');
-INSERT INTO Persons VALUES(20, 'Roger', 'Smith', 2010-10-23, 'SMIR10102387', 2026-10-23, '514-121-1212', '6833 boul. Picodon', 'Montreal', 'QC', 'H1X8Q3', 'Canada', 'rsmith@gmail.com');
-
--- Ministers Of Education--
-INSERT INTO Persons VALUES(21, 'Amanda', 'Hamilton', '1965-07-21', 'HAMM65072135', '2028-07-21', '514-758-9642', '1234 Parliament Hill', 'Ottawa', 'ON', 'K1A0A9', 'Canada', 'ahamilton@gmail.com');
-INSERT INTO Persons VALUES(22, 'William', 'Bradley', '1970-03-15', 'BRDW70031529', '2027-03-15', '514-362-9863', '5678 Governor Dr.', 'Toronto', 'ON', 'M5H2N2', 'Canada', 'wbradley@gmail.com');
-INSERT INTO Persons VALUES(23, 'Lucy', 'Patterson', '1972-11-05', 'PATL72110514', '2028-11-05', '514-473-2376', '9101 Premier Blvd', 'Vancouver', 'BC', 'V5K0A1', 'Canada', 'lpatterson@gmail.com');
-
--- test Persons --
-INSERT INTO Persons VALUES(24, 'Joe', 'Mama', 2017-09-06, 'MAMA16090657', 2028-09-06, '514-512-5151', '72 Morbier Crescent', 'Belleville', 'ON', 'K0B1D4', 'Germany', 'joemamama@gmail.com');
-INSERT INTO Persons VALUES(25, 'Mike', 'Teller', 2018-10-23, 'TELL10102387', 2029-10-23, '514-123-1112', '69 boul. Picodon', 'Montreal', 'QC', 'H1X8Q3', 'Canada', 'miketeller@gmail.com');
-INSERT INTO Persons VALUES(26, 'Ben', 'Dover', 2010-10-23, 'DOVER10102387', 2026-10-23, '514-121-1212', '6833 boul. Picodon', 'Montreal', 'QC', 'H1X8Q3', 'Canada', 'bendover@gmail.com');
-INSERT INTO Persons VALUES(27, 'Mike', 'Hauck', 2010-10-23, 'HAUCK10102387', 2026-10-23, '514-121-1212', '6833 boul. Picodon', 'Montreal', 'QC', 'H1X8Q3', 'Canada', 'mikehauck@gmail.com');
+-- Test Persons --
+INSERT INTO Persons VALUES(24, 'Joe', 'Mama', DATE('2017-09-06'), 'MAMA16090657', DATE('2028-09-06'), '514-512-5151', '72 Morbier Crescent', 'Belleville', 'ON', 'K0B1D4', 'Germany', 'joemamama@gmail.com');
+INSERT INTO Persons VALUES(25, 'Mike', 'Teller', DATE('2018-10-23'), 'TELL10102387', DATE('2029-10-23'), '514-123-1112', '69 boul. Picodon', 'Montreal', 'QC', 'H1X8Q3', 'Canada', 'miketeller@gmail.com');
+INSERT INTO Persons VALUES(26, 'Ben', 'Dover', DATE('2010-10-23'), 'DOVER10102387', DATE('2026-10-23'), '514-121-1212', '6833 boul. Picodon', 'Montreal', 'QC', 'H1X8Q3', 'Canada', 'bendover@gmail.com');
+INSERT INTO Persons VALUES(27, 'Mike', 'Hauck', DATE('2010-10-23'), 'HAUCK10102387', DATE('2026-10-23'), '514-121-1212', '6833 boul. Picodon', 'Montreal', 'QC', 'H1X8Q3', 'Canada', 'mikehauck@gmail.com');
 
 -- for q9
 INSERT INTO Persons VALUES(28, 'Jim', 'Biden', DATE('2017-09-06'), 'TEST', DATE('2028-09-06'), '514-512-5151', '72 Test Street', 'Belleville', 'ON', 'K0B1D4', 'Germany', 'test@gmail.com');
@@ -45,13 +42,13 @@ INSERT INTO Persons VALUES(30, 'Jack', 'Biden', DATE('2017-09-06'), 'TEST', DATE
 INSERT INTO Persons VALUES(31, 'Joseph', 'Biden', DATE('2017-09-06'), 'TEST', DATE('2028-09-06'), '514-512-5151', '72 Test Street', 'Belleville', 'ON', 'K0B1D4', 'Germany', 'test@gmail.com');
 
 -- q16 two more Ministers of Education
-INSERT INTO Persons VALUES(32, 'Liana', 'Bartlett', '1970-12-15', 'LIAB28115564', '2028-11-11', '514-859-8596', '773 Richmond Rd', 'Richmond', 'BC', 'V5C1J7', 'Canada', 'lianabartlett@gmail.com');
-INSERT INTO Persons VALUES(33, 'Keith', 'Bryan', '1981-11-05', 'KEBR81115514', '2028-05-05', '514-441-2777', '91 Henry Blvd', 'Richmond', 'BC', 'V5K0J1', 'Canada', 'keithbryan@gmail.com');
+INSERT INTO Persons VALUES(32, 'Liana', 'Bartlett', DATE('1970-12-15'), 'LIAB28115564', DATE('2028-11-11'), '514-859-8596', '773 Richmond Rd', 'Richmond', 'BC', 'V5C1J7', 'Canada', 'lianabartlett@gmail.com');
+INSERT INTO Persons VALUES(33, 'Keith', 'Bryan', DATE('1981-11-05'), 'KEBR81115514', DATE('2028-05-05'), '514-441-2777', '91 Henry Blvd', 'Richmond', 'BC', 'V5K0J1', 'Canada', 'keithbryan@gmail.com');
 
 -- End of Persons--
 
 -- Infections(InfectionID, DateOfInfection, TypeID [(1, COVID-19), (2, SARS-CoV-2 Variant), (3, Other)], PersonID)--
-INSERT INTO Infections VALUES(1, DATE('2023-05-06'), 1, 1);
+INSERT INTO Infections VALUES(1, DATE('2023-08-06'), 1, 1);
 INSERT INTO Infections VALUES(2, DATE('2023-05-06'), 1, 3);
 INSERT INTO Infections VALUES(3, DATE('2023-05-07'), 2, 5);
 INSERT INTO Infections VALUES(4, DATE('2023-05-08'), 2, 7);
