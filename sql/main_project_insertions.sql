@@ -48,7 +48,7 @@ INSERT INTO Persons VALUES(33, 'Keith', 'Bryan', DATE('1981-11-05'), 'KEBR811155
 -- End of Persons--
 
 -- Infections(InfectionID, DateOfInfection, TypeID [(1, COVID-19), (2, SARS-CoV-2 Variant), (3, Other)], PersonID)--
-INSERT INTO Infections VALUES(1, DATE('2023-05-06'), 1, 1);
+INSERT INTO Infections VALUES(1, DATE('2023-08-06'), 1, 1);
 INSERT INTO Infections VALUES(2, DATE('2023-05-06'), 1, 3);
 INSERT INTO Infections VALUES(3, DATE('2023-05-07'), 2, 5);
 INSERT INTO Infections VALUES(4, DATE('2023-05-08'), 2, 7);
