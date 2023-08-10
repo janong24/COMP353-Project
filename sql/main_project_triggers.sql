@@ -74,8 +74,10 @@ CREATE TRIGGER NoConflictingScheduleTrigger
 
 DELIMITER ;
 
+
 -- Trigger that checks if the person scheduled has been vaccinated in the past 6 months. 
 -- Basically checks the number of vaccinations done in the past 6 months. If it returns 0, then an error is signaled. Otherwise the person is vaccinated in the past 6 months.
+DELIMITER |
 CREATE TRIGGER ScheduleVaccineCheck
   BEFORE INSERT ON Schedules
   FOR EACH ROW
@@ -95,8 +97,11 @@ CREATE TRIGGER ScheduleVaccineCheck
      END IF;
 END;
 
+DELIMITER ;
+
 -- Trigger that checks overlapping student registration dates.
 -- Basically tries to look for atleast 1 registration with EndDate Null, or StartDate of new registration between a current registration witha  StartDate and EndDate.
+DELIMITER |
 CREATE TRIGGER CheckStudentRegistration
   BEFORE INSERT ON StudentRegistrations
   FOR EACH ROW
@@ -115,8 +120,11 @@ CREATE TRIGGER CheckStudentRegistration
      END IF;
 END;
 
+DELIMITER ;
+
 -- Trigger that checks overlapping employee registration dates. Same thing as Student registration
 -- Basically tries to look for atleast 1 registration with EndDate Null, or StartDate of new registration between a current registration witha  StartDate and EndDate.
+DELIMITER |
 CREATE TRIGGER CheckEmployeeRegistration
 BEFORE INSERT ON EmployeeRegistrations
 FOR EACH ROW
@@ -134,3 +142,5 @@ BEGIN
       SET MESSAGE_TEXT = 'An employee cannot be registered at more than one facility at the same time';
    END IF;
 END;
+
+DELIMITER ;
