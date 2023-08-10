@@ -46,6 +46,11 @@ INSERT INTO Persons VALUES(31, 'Joseph', 'Biden', DATE('2017-09-06'), 'TEST', DA
 INSERT INTO Persons VALUES(32, 'Liana', 'Bartlett', DATE('1970-12-15'), 'LIAB28115564', DATE('2028-11-11'), '514-859-8596', '773 Richmond Rd', 'Richmond', 'BC', 'V5C1J7', 'Canada', 'lianabartlett@gmail.com');
 INSERT INTO Persons VALUES(33, 'Keith', 'Bryan', DATE('1981-11-05'), 'KEBR81115514', DATE('2028-05-05'), '514-441-2777', '91 Henry Blvd', 'Richmond', 'BC', 'V5K0J1', 'Canada', 'keithbryan@gmail.com');
 
+-- q15 insert more high school students
+INSERT INTO Persons VALUES(34, 'Alonzo', 'Mora', DATE('2006-10-05'), 'ALMR84515414', DATE('2030-12-05'), '438-441-2777', '1051 Bench Blvd', 'Burnaby', 'BC', 'V5K0S3', 'Canada', 'alonzomora@gmail.com');
+INSERT INTO Persons VALUES(35, 'Joyce', 'Ali', DATE('2006-11-25'), 'JYAL81510038', DATE('2030-07-10'), '237-440-2277', '58 Marine Blvd', 'Richmond', 'BC', 'V5K3H5', 'Canada', 'joyceali@gmail.com');
+INSERT INTO Persons VALUES(36, 'Emilia', 'Leblanc', DATE('2006-01-15'), 'ELLB47713514', DATE('2031-06-05'), '514-541-2537', '800 Park Blvd', 'Montreal', 'QC', 'H2S0M1', 'Canada', 'emilialeblanc@gmail.com');
+
 -- End of Persons--
 
 -- Infections(InfectionID, DateOfInfection, TypeID [(1, COVID-19), (2, SARS-CoV-2 Variant), (3, Other)], PersonID)--
@@ -93,6 +98,13 @@ INSERT INTO Infections VALUES(35, DATE('2023-08-04'), 1, 5);
 INSERT INTO Infections VALUES(36, DATE('2023-08-01'), 1, 9);
 INSERT INTO Infections VALUES(37, DATE('2023-08-01'), 1, 10);
 
+-- student infected in the past 2 weeks from high school
+INSERT INTO Infections VALUES(38, DATE('2023-08-01'), 1, 11);
+INSERT INTO Infections VALUES(39, DATE('2023-08-03'), 1, 16);
+INSERT INTO Infections VALUES(40, DATE('2023-08-05'), 1, 34);
+INSERT INTO Infections VALUES(41, DATE('2023-08-06'), 1, 35);
+INSERT INTO Infections VALUES(42, DATE('2023-08-07'), 1, 36);
+
 -- Vaccinations(VaccinationID, VaccinationDate, DoseNumber, VaccineID [(1, Pfizer), (2, Moderna), (3, AztraZeneca), (4, Johnson & Johnson)], PersonID)--
 INSERT INTO Vaccinations VALUES(1, DATE('2019-04-04'), 1, 1, 2);
 INSERT INTO Vaccinations VALUES(2, DATE('2019-04-04'), 1, 1, 4);
@@ -136,13 +148,18 @@ INSERT INTO Facilities VALUES(10, 'New England English School Board ', '69 Rue M
 INSERT INTO Facilities VALUES(11, 'Laval Junior English School Board ', '70 Rue Vallier', 'Laval', 'QC', 'H2S2M2', '514-087-9441', 'https://lavaljunior.education.qc.ca/board', 200, 1, 2);
 INSERT INTO Facilities VALUES(12, 'Brossard English School Board ', '80 Rue Marie', 'Brossard', 'QC', 'J4R1H3', '514-117-9625', 'https://brossard.education.qc.ca/board', 150, 4, 1);
 
+-- insert more high schools
+INSERT INTO Facilities VALUES(13, 'Bishop High School', '85 Rue Bishop', 'Toronto', 'ON', 'M4V3W3', '416-111-9669', 'https://bishophighschool.education.on.ca/board', 350, 2, 5);
+INSERT INTO Facilities VALUES(14, 'Brentwood High School', '90 Milky Rd', 'Vancouver', 'BC', 'J4C5V3', '778-119-5579', 'https://brentwoodhighschool.education.bc.ca/board', 250, 2, 5);
+INSERT INTO Facilities VALUES(15, 'Columbia International High School', '95 Main St', 'Toronto', 'ON', 'L8S5P6', '416-334-5789', 'https://columbiainternational.education.on.ca/board', 400, 5, 5);
+
 -- StudentRegistrations(PersonID, FacilityID, StartDate, EndDate, SchoolTypeID, SchoolLevel)--
-INSERT INTO StudentRegistrations VALUES(11, 5, DATE('2023-09-01'), NULL, 2, 6);
+INSERT INTO StudentRegistrations VALUES(11, 5, DATE('2023-09-01'), NULL, 3, 6);
 INSERT INTO StudentRegistrations VALUES(12, 4, DATE('2020-09-01'), NULL, 2, 5);
 INSERT INTO StudentRegistrations VALUES(13, 3, DATE('2022-09-01'), NULL, 1, 4);
 INSERT INTO StudentRegistrations VALUES(14, 1, DATE('2020-09-01'), NULL, 1, 3);
 INSERT INTO StudentRegistrations VALUES(15, 2, DATE('2019-09-01'), NULL, 1, 2);
-INSERT INTO StudentRegistrations VALUES(16, 5, DATE('2023-09-01'), NULL, 2, 6);
+INSERT INTO StudentRegistrations VALUES(16, 5, DATE('2023-09-01'), NULL, 3, 6);
 INSERT INTO StudentRegistrations VALUES(17, 4, DATE('2020-09-01'), NULL, 2, 5);
 INSERT INTO StudentRegistrations VALUES(18, 3, DATE('2022-09-01'), NULL, 1, 4);
 INSERT INTO StudentRegistrations VALUES(19, 1, DATE('2019-09-01'), NULL, 1, 3);
@@ -151,6 +168,11 @@ INSERT INTO StudentRegistrations VALUES(20, 2, DATE('2020-09-01'), NULL, 1, 2);
 -- test--
 INSERT INTO StudentRegistrations VALUES(23, 6, DATE('2020-09-01'), NULL, 1, 3);
 INSERT INTO StudentRegistrations VALUES(24, 6, DATE('2020-09-01'), NULL, 2, 3);
+
+-- more high school students
+INSERT INTO StudentRegistrations VALUES(34, 13, DATE('2021-09-01'), NULL, 3, 6);
+INSERT INTO StudentRegistrations VALUES(35, 14, DATE('2021-09-01'), NULL, 3, 6);
+INSERT INTO StudentRegistrations VALUES(36, 15, DATE('2021-09-01'), NULL, 3, 6);
 
 -- EmployeeRegistrations(PersonID, FacilityID, StartDate, EndDate, EmployeeTypeID, SpecializationID)--
 INSERT INTO EmployeeRegistrations VALUES(1, 8, DATE('2015-06-01'), DATE('2019-12-30'), 1, 1);
