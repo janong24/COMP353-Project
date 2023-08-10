@@ -160,7 +160,7 @@ LEFT JOIN Facilities f ON er.FacilityID = f.FacilityID
 LEFT JOIN FacilityTypes ft ON f.FacilityTypeID = ft.TypeID
 WHERE 
   et.EmployeeType = 'Teacher' 
-  AND sp.SpecializationName = 'Counselor'  -- Use specialization name instead of ID.
+  AND sp.Specialization = 'Counselor'
   AND er.EndDate IS NULL
   AND p.PersonID IN (
     SELECT i.PersonID 
