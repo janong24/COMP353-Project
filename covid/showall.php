@@ -22,13 +22,42 @@ $statement->execute();
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../styles.css">
   <script src="https://kit.fontawesome.com/6ebd7b3ed7.js" crossorigin="anonymous"></script>
+  <script>
+    //gathers the data from the table to be exported
+    function exportTableToCSV(filename) {
+                var csv = [];
+                var rows = document.querySelectorAll("table tr");
+                
+                for (var i = 0; i < rows.length; i++) {
+                    var row = [], cols = rows[i].querySelectorAll("td, th");
+                for (var j = 0; j < cols.length - 1; j++) 
+                    row.push('"' + cols[j].innerText + '"');
+                csv.push(row.join(","));        
+                }
+                downloadCSV(csv.join("\n"), filename);
+            }
+            
+    //downloads the data as a csv file
+    function downloadCSV(csv, filename) {
+        var csvFile;
+        var downloadLink;
+        csvFile = new Blob([csv], {type: "text/csv"});
+        downloadLink = document.createElement("a");
+        downloadLink.download = filename;
+        downloadLink.href = window.URL.createObjectURL(csvFile);
+        downloadLink.style.display = "none";
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+    }
+  </script>
   <title>EPSTS - Table <?= $tableName ?></title>
 </head>
 <body>
   <?php include_once ('../navbar.php'); ?>
   <br/><br/>
     <a class="topBtn" href="./create.php?table=<?=$tableName?>">Add a new entry</a>
-  <table class="styled-table">
+    <a class="topBtn" onclick="exportTableToCSV('Results.csv')">Export to CSV</a>
+  <table class="styled-table" id="resultsTable">
     <caption><h1>Table: <?= $tableName ?></h1></caption>
     <thead>
       <tr>

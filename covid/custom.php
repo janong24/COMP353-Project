@@ -259,11 +259,41 @@ if (!empty($query)) {
         document.getElementById('hidden_facilities').style.display = "none";
       }
     }
+
+    //gathers the data from the table to be exported
+    function exportTableToCSV(filename) {
+            var csv = [];
+            var rows = document.querySelectorAll("table tr");
+            
+            for (var i = 0; i < rows.length; i++) {
+                var row = [], cols = rows[i].querySelectorAll("td, th");
+            for (var j = 0; j < cols.length; j++) 
+                row.push('"' + cols[j].innerText + '"');
+            csv.push(row.join(","));        
+            }
+            downloadCSV(csv.join("\n"), filename);
+        }
+            
+    //downloads the data as a csv file
+    function downloadCSV(csv, filename) {
+        var csvFile;
+        var downloadLink;
+        csvFile = new Blob([csv], {type: "text/csv"});
+        downloadLink = document.createElement("a");
+        downloadLink.download = filename;
+        downloadLink.href = window.URL.createObjectURL(csvFile);
+        downloadLink.style.display = "none";
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+    }
   </script>
   <title>Custom Queries</title>
 </head>
 <body>
   <?php include_once ('../navbar.php'); ?>
+  <div class="containerLeftMargin">
+    <a class="topBtn" onclick="exportTableToCSV('Results.csv')">Export to CSV</a>
+    </div>
   <div class="containerLeftMargin">
     <h2>Choose a custom query to execute from the dropdown below.</h2>
 
