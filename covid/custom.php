@@ -101,7 +101,11 @@ switch ($query) {
     break;
   case "q13":
     $query = "
-    SELECT s.facilityID, p.firstName, p.lastName, ft.typeName AS 'role'
+    SELECT s.facilityID, p.firstName, p.lastName,
+    CASE 
+      WHEN ft.SubTypeName IN ('Primary School', 'Middle School') THEN 'elementary'
+      ELSE 'secondary'
+    END AS 'role'
     FROM Schedules AS s
     JOIN Persons AS p ON s.personID = p.personID
     JOIN Facilities AS f ON s.facilityID = f.facilityID
@@ -109,11 +113,14 @@ switch ($query) {
     JOIN EmployeeRegistrations AS er ON p.personID = er.personID
     JOIN EmployeeType AS et ON er.employeeTypeID = et.employeeTypeID
     WHERE et.employeeType = 'Teacher'
-    AND DATE(s.startTime) >= DATE_ADD(CURRENT_DATE(), INTERVAL -14 DAY)
-    AND DATE(s.endTime) <= CURRENT_DATE()
+    AND DATE(s.startTime) BETWEEN DATE_ADD(CURRENT_DATE(), INTERVAL -14 DAY) AND CURRENT_DATE()
     AND s.facilityID = specificFacilityID " . $facility . "
     GROUP BY p.personID
-    ORDER BY ft.typeName, p.firstName;
+    ORDER BY 
+      CASE 
+        WHEN ft.SubTypeName IN ('Primary School', 'Middle School') THEN 1
+        ELSE 2
+      END, p.firstName;
     ";
     break;
   case "q14":
@@ -127,57 +134,64 @@ switch ($query) {
     AND DATE(s.startTime) >= " . $specificPeriodStartTime . "
     AND DATE(s.endTime) <= " . $specificPeriodEndTime . "
     AND s.facilityID = " . $facility . "
+    GROUP BY p.personID, p.firstName, p.lastName
     ORDER BY p.firstName, p.lastName;
     ";
     break;
   case "q15":
     $query = "
-    SELECT f.province, f.name, f.capacity, r.numberOfTeachersInfectedInPastTwoWeeks, r2.numberOfStudentsInfectedInPastTwoWeeks
-    FROM Facilities AS f
-    JOIN FacilityTypes AS ft ON f.facilityTypeID = ft.typeID
-    JOIN (
-      SELECT f.facilityID, COUNT(p.personID) AS 'numberOfTeachersInfectedInPastTwoWeeks'
-        FROM Persons AS p
-        JOIN EmployeeRegistrations AS er ON p.personID = er.personID
-        JOIN EmployeeType AS et ON er.employeeTypeID = et.employeeTypeID
-        JOIN Facilities AS f ON er.facilityID = f.facilityID
-        JOIN Infections AS i ON p.personID = i.personID
-        WHERE i.dateOfInfection >= DATE_ADD(CURRENT_DATE(), INTERVAL -14 DAY) AND CURRENT_DATE AND et.employeeType = 'Teacher'
-        GROUP BY f.facilityID
-    ) r ON f.facilityID = r.facilityID
-    JOIN (
-      SELECT f.facilityID, COUNT(p.personID) AS 'numberOfStudentsInfectedInPastTwoWeeks'
-        FROM Persons AS p
-        JOIN StudentRegistrations AS sr ON p.personID = sr.personID
-        JOIN Facilities AS f ON sr.facilityID = f.facilityID
-        JOIN Infections AS i ON p.personID = i.personID
-        WHERE i.dateOfInfection >= DATE_ADD(CURRENT_DATE(), INTERVAL -14 DAY)
-        GROUP BY f.facilityID
-    ) r2 ON f.facilityID = r2.facilityID
-    WHERE ft.subTypeName = 'High School'
-    ORDER BY f.province, r.numberOfTeachersInfectedInPastTwoWeeks;
+    SELECT f.Province, f.Name AS SchoolName, f.Capacity, IFNULL(ti.TeacherCount, 0) AS TeachersInfectedCount, IFNULL(si.StudentCount, 0) AS StudentsInfectedCount
+    FROM Facilities f
+    LEFT JOIN (
+      SELECT 
+          f2.FacilityID, 
+          COUNT(DISTINCT e.PersonID) AS TeacherCount
+      FROM Facilities f2
+      JOIN EmployeeRegistrations e ON f2.FacilityID = e.FacilityID
+      JOIN Infections i ON e.PersonID = i.PersonID
+      WHERE f2.FacilityTypeID = (SELECT TypeID FROM FacilityTypes WHERE SubTypeName = 'High School')
+        AND i.DateOfInfection >= CURDATE() - INTERVAL 2 WEEK
+        AND i.TypeID = (SELECT TypeID FROM TypeOfInfections WHERE TypeName = 'COVID-19')
+        AND e.EmployeeTypeID = (SELECT EmployeeTypeID FROM EmployeeType WHERE EmployeeType = 'Teacher')
+      GROUP BY f2.FacilityID
+    ) AS ti ON f.FacilityID = ti.FacilityID
+    LEFT JOIN (
+      SELECT 
+          f3.FacilityID, 
+          COUNT(DISTINCT s.PersonID) AS StudentCount
+      FROM Facilities f3
+      JOIN StudentRegistrations s ON f3.FacilityID = s.FacilityID
+      JOIN Infections i ON s.PersonID = i.PersonID
+      WHERE f3.FacilityTypeID = (SELECT TypeID FROM FacilityTypes WHERE SubTypeName = 'High School')
+        AND i.DateOfInfection >= CURDATE() - INTERVAL 2 WEEK
+        AND i.TypeID = (SELECT TypeID FROM TypeOfInfections WHERE TypeName = 'COVID-19')
+        AND s.SchoolTypeID = (SELECT SchoolTypeID FROM SchoolType WHERE SchoolType = 'High School')
+      GROUP BY f3.FacilityID
+    ) AS si ON f.FacilityID = si.FacilityID
+    WHERE f.FacilityTypeID = (SELECT TypeID FROM FacilityTypes WHERE SubTypeName = 'High School')
+    ORDER BY f.Province ASC, IFNULL(ti.TeacherCount, 0) ASC;
     ";
     break;
   case "q16":
     $query = "
-    SELECT p.firstName, p.lastName, p.city, r.numberOfManagementFacilities, r2.numberOfEducationalFacilities
+    SELECT p.FirstName, p.LastName, p.City, IFNULL(r.numberOfManagementFacilities, 0) AS numberOfManagementFacilities, IFNULL(r2.numberOfEducationalFacilities, 0) AS numberOfEducationalFacilities
     FROM Ministries AS m
-    JOIN Persons AS p ON m.ministerOfEducationID = p.personID
-    JOIN (
-      SELECT f.ministryID, COUNT(f.facilityID) AS 'numberOfManagementFacilities'
-        FROM Facilities AS f
-        JOIN FacilityTypes AS ft ON f.facilityTypeID = ft.typeID
-        WHERE ft.typeName = 'Management'
-        GROUP BY f.ministryID
-    ) r on m.MinistryID = r.ministryID
-    JOIN (
-      SELECT f.ministryID, COUNT(f.facilityID) AS 'numberOfEducationalFacilities'
-        FROM Facilities AS f
-        JOIN FacilityTypes AS ft ON f.facilityTypeID = ft.typeID
-        WHERE ft.typeName = 'Education'
-        GROUP BY f.ministryID
-    ) r2 on m.MinistryID = r2.ministryID
-    ORDER BY p.city ASC, r2.numberOfEducationalFacilities DESC;
+    JOIN Persons AS p ON m.MinisterOfEducationID = p.PersonID
+    LEFT JOIN (
+      SELECT f.MinistryID, COUNT(f.FacilityID) AS numberOfManagementFacilities
+      FROM Facilities AS f
+      JOIN FacilityTypes AS ft ON f.FacilityTypeID = ft.TypeID
+      WHERE ft.TypeName = 'Management'
+      GROUP BY f.MinistryID
+    ) r on m.MinistryID = r.MinistryID
+    LEFT JOIN (
+      SELECT f.MinistryID, COUNT(f.FacilityID) AS numberOfEducationalFacilities
+      FROM Facilities AS f
+      JOIN FacilityTypes AS ft ON f.FacilityTypeID = ft.TypeID
+      WHERE ft.TypeName = 'Education'
+      GROUP BY f.MinistryID
+    ) r2 on m.MinistryID = r2.MinistryID
+    ORDER BY p.City ASC, r2.numberOfEducationalFacilities DESC;
     ";
     break;
   case "q17":
