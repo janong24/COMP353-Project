@@ -196,26 +196,28 @@ switch ($query) {
     break;
   case "q17":
     $query = "
-    SELECT p.firstName, p.lastName, r2.firstDayAsTeacher, ft.typeName, p.dateOfBirth, p.email, SUM(TIMESTAMPDIFF(HOUR, s.startTime, s.endTime)) AS 'totalHours'
-    FROM EmployeeRegistrations AS er
-    JOIN EmployeeType AS et ON er.employeeTypeID = et.employeeTypeID
-    JOIN Persons AS p ON er.personID = p.personID
-    JOIN Facilities AS f ON er.facilityID = f.facilityID
-    JOIN FacilityTypes AS ft ON f.facilityTypeID = ft.typeID
-    JOIN (
-      SELECT i.personID, COUNT(i.infectionID)
-        FROM Infections AS i
-        GROUP BY i.personID
-        HAVING COUNT(i.infectionID) >= 3
-    ) r ON p.personID = r.personID
-    JOIN (
-      SELECT er.startDate AS 'firstDayAsTeacher', er.personID
-        FROM EmployeeRegistrations AS er
-        JOIN EmployeeType AS et ON er.employeeTypeID = et.employeeTypeID
-        WHERE et.employeeType = 'Teacher'
-    ) r2 ON p.personID = r2.personID
-    WHERE et.employeeTypeID = 'Counselor' AND er.endDate IS NULL
-    ORDER BY ft.role, p.firstName, p.lastName;
+SELECT p.PersonID, p.FirstName, p.LastName, MIN(er.StartDate) AS 'FirstDayAsTeacher', ft.TypeName AS 'Role', p.DateOfBirth, p.Email, SUM(TIMESTAMPDIFF(HOUR, s.startTime, s.endTime)) AS 'totalHours'
+FROM Persons p
+JOIN EmployeeRegistrations er ON p.PersonID = er.PersonID
+JOIN EmployeeType et ON er.EmployeeTypeID = et.EmployeeTypeID
+LEFT JOIN Specialization sp ON er.SpecializationID = sp.SpecializationID
+LEFT JOIN Schedules s ON p.PersonID = s.personID
+LEFT JOIN Facilities f ON er.FacilityID = f.FacilityID
+LEFT JOIN FacilityTypes ft ON f.FacilityTypeID = ft.TypeID
+WHERE 
+  et.EmployeeType = 'Teacher' 
+  AND sp.Specialization = 'Counselor'
+  AND er.EndDate IS NULL
+  AND p.PersonID IN (
+    SELECT i.PersonID 
+    FROM Infections AS i
+    JOIN TypeOfInfections toi ON i.TypeID = toi.TypeID
+    WHERE toi.TypeName = 'COVID-19'
+    GROUP BY i.PersonID
+    HAVING COUNT(i.infectionID) >= 3
+  )
+GROUP BY p.PersonID, p.FirstName, p.LastName, ft.TypeName, p.DateOfBirth, p.Email
+ORDER BY ft.TypeName ASC, p.FirstName ASC, p.LastName ASC;
     ";
     break;
 }
