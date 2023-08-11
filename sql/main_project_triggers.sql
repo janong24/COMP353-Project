@@ -12,15 +12,15 @@ CREATE TRIGGER TeacherInfectedTrigger
       )
       THEN  
         INSERT INTO EmailContent(emailSubject, emailBody, emailDate) VALUES (
-          CONCAT('Warning - COVID-19 Infection of ', NEW.personID, ' on ', CAST(CURRENT_DATE AS CHAR)),
-          CONCAT((SELECT CONCAT(firstName, lastName) FROM Persons WHERE Persons.personID = NEW.personID), ' who teaches at your school has been infected with COVID-19 on ', CAST(NEW.dateOfInfection AS CHAR)),
+          CONCAT('Warning - COVID-19 Infection of ', NEW.personID, ' on ', CAST(NEW.DateOfInfection AS CHAR)),
+          CONCAT((SELECT CONCAT(firstName, lastName) FROM Persons WHERE Persons.personID = NEW.personID), ' who teaches at your school has been infected with COVID-19 on ', CAST(NEW.DateOfInfection AS CHAR)),
           CURRENT_DATE()
         );
         INSERT INTO EmailLogs VALUES (
           (
             SELECT emailContentID 
               FROM EmailContent 
-              WHERE emailSubject COLLATE utf8mb4_general_ci = CONCAT('Warning - COVID-19 Infection of ', NEW.personID, ' on ', CAST(CURRENT_DATE AS CHAR))
+              WHERE emailSubject COLLATE utf8mb4_general_ci = CONCAT('Warning - COVID-19 Infection of ', NEW.personID, ' on ', CAST(NEW.DateOfInfection AS CHAR))
           ),
           (
             SELECT MIN(facilityID)

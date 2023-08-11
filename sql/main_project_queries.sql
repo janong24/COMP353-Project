@@ -55,11 +55,15 @@ SELECT p.firstName, p.lastName, i.dateOfInfection, f.name
   ORDER BY f.name, p.firstName;
 
 -- 12
+SET @specificFacilityID := 7;
+
 SELECT *
   FROM EmailContent AS ec
   JOIN EmailLogs AS el ON ec.emailContentID = el.emailContentID
   WHERE el.facilityID = @specificFacilityID
   ORDER BY ec.emailDate;
+
+SET @specificFacilityID := 1;
 
 -- 13
 SELECT s.facilityID, p.firstName, p.lastName,
