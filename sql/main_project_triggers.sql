@@ -23,7 +23,7 @@ CREATE TRIGGER TeacherInfectedTrigger
               WHERE emailSubject COLLATE utf8mb4_general_ci = CONCAT('Warning - COVID-19 Infection of ', NEW.personID, ' on ', CAST(CURRENT_DATE AS CHAR))
           ),
           (
-            SELECT facilityID
+            SELECT MIN(facilityID)
               FROM EmployeeRegistrations AS er
               WHERE er.personID = NEW.personID
           ),
@@ -33,7 +33,7 @@ CREATE TRIGGER TeacherInfectedTrigger
               JOIN EmployeeType AS et ON er.employeeTypeID = et.employeeTypeID
               WHERE et.employeeType = 'Principal'
               AND er.facilityID = (
-                SELECT facilityID
+                SELECT MIN(facilityID)
                   FROM EmployeeRegistrations AS er
                   WHERE er.personID = NEW.personID
               )
