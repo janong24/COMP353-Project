@@ -109,7 +109,7 @@ CREATE TRIGGER CheckStudentRegistration
      IF EXISTS (
         SELECT 1 
         FROM StudentRegistrations 
-        WHERE StudentID = NEW.StudentID
+        WHERE StudentID = NEW.PersonID
         AND (
            (NEW.StartDate BETWEEN StartDate AND IFNULL(EndDate, NEW.StartDate))
            OR (NEW.EndDate IS NOT NULL AND NEW.EndDate BETWEEN StartDate AND IFNULL(EndDate, NEW.EndDate))
@@ -132,7 +132,7 @@ BEGIN
    IF EXISTS (
       SELECT 1 
       FROM EmployeeRegistrations 
-      WHERE EmployeeID = NEW.EmployeeID
+      WHERE EmployeeID = NEW.PersonID
       AND (
          (NEW.StartDate BETWEEN StartDate AND IFNULL(EndDate, NEW.StartDate))
          OR (NEW.EndDate IS NOT NULL AND NEW.EndDate BETWEEN StartDate AND IFNULL(EndDate, NEW.EndDate))
