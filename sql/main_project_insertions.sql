@@ -51,13 +51,16 @@ INSERT INTO Persons VALUES(34, 'Alonzo', 'Mora', DATE('2006-10-05'), 'ALMR845154
 INSERT INTO Persons VALUES(35, 'Joyce', 'Ali', DATE('2006-11-25'), 'JYAL81510038', DATE('2030-07-10'), '237-440-2277', '58 Marine Blvd', 'Richmond', 'BC', 'V5K3H5', 'Canada', 'joyceali@gmail.com');
 INSERT INTO Persons VALUES(36, 'Emilia', 'Leblanc', DATE('2006-01-15'), 'ELLB47713514', DATE('2031-06-05'), '514-541-2537', '800 Park Blvd', 'Montreal', 'QC', 'H2S0M1', 'Canada', 'emilialeblanc@gmail.com');
 
+-- q17 insert one more high school counselors 
+INSERT INTO Persons VALUES(37, 'Franklin', 'Avila', DATE('1990-11-08'), 'FLAL55515433', DATE('2028-12-25'), '438-553-2297', '1891 Papineau', 'Brossard', 'QC', 'H2S6J9', 'Canada', 'franklinavila@gmail.com');
+
 -- End of Persons--
 
 -- Infections(InfectionID, DateOfInfection, TypeID [(1, COVID-19), (2, SARS-CoV-2 Variant), (3, Other)], PersonID)--
 INSERT INTO Infections VALUES(1, DATE('2023-05-06'), 1, 1);
 INSERT INTO Infections VALUES(2, DATE('2023-05-06'), 1, 3);
 INSERT INTO Infections VALUES(3, DATE('2023-05-07'), 2, 5);
-INSERT INTO Infections VALUES(4, DATE('2023-05-08'), 2, 7);
+INSERT INTO Infections VALUES(4, DATE('2023-05-08'), 1, 7);
 INSERT INTO Infections VALUES(5, DATE('2023-05-08'), 3, 9);
 INSERT INTO Infections VALUES(6, DATE('2023-05-08'), 1, 11);
 INSERT INTO Infections VALUES(7, DATE('2023-05-08'), 2, 13);
@@ -77,7 +80,7 @@ INSERT INTO Infections VALUES(18, DATE('2023-08-02'), 1, 21);
 INSERT INTO Infections VALUES(19, DATE('2023-08-09'), 1, 17);
 INSERT INTO Infections VALUES(20, DATE('2023-08-10'), 1, 2);
 
--- for q17, employee got infected >= 3 times
+-- for q17, counselors infected >= 3 times
 INSERT INTO Infections VALUES(21, DATE('2021-10-02'), 1, 1);
 INSERT INTO Infections VALUES(22, DATE('2021-11-09'), 1, 1);
 INSERT INTO Infections VALUES(23, DATE('2021-12-10'), 1, 1);
@@ -87,9 +90,9 @@ INSERT INTO Infections VALUES(26, DATE('2021-07-11'), 1, 5);
 INSERT INTO Infections VALUES(27, DATE('2021-09-20'), 1, 5);
 INSERT INTO Infections VALUES(28, DATE('2021-07-11'), 1, 7);
 INSERT INTO Infections VALUES(29, DATE('2021-09-20'), 1, 7);
-INSERT INTO Infections VALUES(30, DATE('2021-07-11'), 1, 10);
-INSERT INTO Infections VALUES(31, DATE('2022-06-20'), 1, 10);
-INSERT INTO Infections VALUES(32, DATE('2022-07-21'), 1, 10);
+INSERT INTO Infections VALUES(30, DATE('2023-02-11'), 1, 37);
+INSERT INTO Infections VALUES(31, DATE('2023-06-20'), 1, 37);
+INSERT INTO Infections VALUES(32, DATE('2023-07-21'), 1, 37);
 
 -- for q11, teachers infected in the past 2 weeks
 INSERT INTO Infections VALUES(33, DATE('2023-08-05'), 1, 4);
@@ -104,6 +107,7 @@ INSERT INTO Infections VALUES(39, DATE('2023-08-03'), 1, 16);
 INSERT INTO Infections VALUES(40, DATE('2023-08-05'), 1, 34);
 INSERT INTO Infections VALUES(41, DATE('2023-08-06'), 1, 35);
 INSERT INTO Infections VALUES(42, DATE('2023-08-07'), 1, 36);
+
 
 -- Vaccinations(VaccinationID, VaccinationDate, DoseNumber, VaccineID [(1, Pfizer), (2, Moderna), (3, AztraZeneca), (4, Johnson & Johnson)], PersonID)--
 INSERT INTO Vaccinations VALUES(1, DATE('2019-04-04'), 1, 1, 2);
@@ -125,6 +129,9 @@ INSERT INTO Vaccinations VALUES(16, DATE('2023-07-03'), 2, 4, 10);
 INSERT INTO Vaccinations VALUES(17, DATE('2023-07-03'), 2, 2, 6);
 INSERT INTO Vaccinations VALUES(18, DATE('2023-07-04'), 1, 1, 27);
 INSERT INTO Vaccinations VALUES(19, DATE('2023-07-04'), 1, 1, 11);
+INSERT INTO Vaccinations VALUES(20, DATE('2023-07-05'), 1, 1, 1);
+INSERT INTO Vaccinations VALUES(21, DATE('2023-07-05'), 1, 2, 3);
+INSERT INTO Vaccinations VALUES(22, DATE('2023-03-05'), 1, 3, 37);
 
 -- Ministries(MinistryID, Name, Address, City, Province, PostalCode, PhoneNumber, WebAddress, Capacity, MinisterOfEducationID)--
 INSERT INTO Ministries VALUES(1, 'Laval Ministry of Education', '1201 ch. du Omelette', 'Laval', 'QC', 'H1P7U9', '514-999-8855', 'https://laval.education.qc.ca', 15000, 21);
@@ -176,17 +183,17 @@ INSERT INTO StudentRegistrations VALUES(36, 15, DATE('2021-09-01'), NULL, 3, 6);
 
 -- EmployeeRegistrations(PersonID, FacilityID, StartDate, EndDate, EmployeeTypeID, SpecializationID)--
 INSERT INTO EmployeeRegistrations VALUES(1, 8, DATE('2015-06-01'), DATE('2019-12-30'), 1, 1);
-INSERT INTO EmployeeRegistrations VALUES(1, 6, DATE('2020-08-01'), NULL, 2, NULL);
+INSERT INTO EmployeeRegistrations VALUES(1, 5, DATE('2020-08-01'), NULL, 1, 4);
 INSERT INTO EmployeeRegistrations VALUES(2, 7, DATE('2020-11-25'), NULL, 1, 2);
 INSERT INTO EmployeeRegistrations VALUES(3, 7, DATE('2016-07-15'), DATE('2021-06-25'), 2, NULL);
-INSERT INTO EmployeeRegistrations VALUES(3, 8, DATE('2021-12-28'), NULL, 3, NULL);
+INSERT INTO EmployeeRegistrations VALUES(3, 5, DATE('2021-12-28'), NULL, 1, 4);
 INSERT INTO EmployeeRegistrations VALUES(4, 6, DATE('2022-02-17'), NULL, 1, 3);
 INSERT INTO EmployeeRegistrations VALUES(5, 4, DATE('2012-07-15'), DATE('2015-07-16'), 3, NULL);
 INSERT INTO EmployeeRegistrations VALUES(5, 3, DATE('2015-09-01'), DATE('2022-01-03'), 1, 2);
-INSERT INTO EmployeeRegistrations VALUES(5, 1, DATE('2022-04-20'), NULL, 1, 1);
+INSERT INTO EmployeeRegistrations VALUES(5, 13, DATE('2022-04-20'), NULL, 1, 4);
 INSERT INTO EmployeeRegistrations VALUES(6, 2, DATE('2022-07-27'), NULL, 3, NULL);
 INSERT INTO EmployeeRegistrations VALUES(7, 1, DATE('2019-06-15'), DATE('2022-09-01'), 1, 1);
-INSERT INTO EmployeeRegistrations VALUES(7, 3, DATE('2022-11-05'), NULL, 2, NULL);
+INSERT INTO EmployeeRegistrations VALUES(7, 13, DATE('2022-11-05'), NULL, 1, 4);
 INSERT INTO EmployeeRegistrations VALUES(8, 1, DATE('2023-07-31'), NULL, 1, 3);
 INSERT INTO EmployeeRegistrations VALUES(9, 2, DATE('2020-06-30'), DATE('2022-07-30'), 2, NULL);
 INSERT INTO EmployeeRegistrations VALUES(9, 5, DATE('2022-09-18'), NULL, 1, 4);
@@ -198,7 +205,8 @@ INSERT INTO EmployeeRegistrations VALUES(27, 1, DATE('2023-01-01'), NULL, 3, NUL
 INSERT INTO EmployeeRegistrations VALUES(28, 1, DATE('2023-01-01'), NULL, 5, NULL);
 INSERT INTO EmployeeRegistrations VALUES(29, 1, DATE('2023-01-01'), NULL, 5, NULL);
 INSERT INTO EmployeeRegistrations VALUES(30, 1, DATE('2023-01-01'), NULL, 5, NULL);
-
+-- for q17 
+INSERT INTO EmployeeRegistrations VALUES(37, 14, DATE('2023-01-01'), NULL, 1, 4);
 -- testing if student can be inserted into employee registration
 INSERT INTO EmployeeRegistrations VALUES(12, 3, DATE('2023-01-01'), NULL, 1, 5);
 INSERT INTO EmployeeRegistrations VALUES(16, 7, DATE('2023-01-01'), NULL, 3, NULL);
@@ -207,13 +215,13 @@ INSERT INTO EmployeeRegistrations VALUES(16, 7, DATE('2023-01-01'), NULL, 3, NUL
 INSERT INTO Schedules VALUES(1, 25, 10, '2012-08-13 11:39:51', '2012-08-13 17:39:51');
 INSERT INTO Schedules VALUES(2, 25, 10, '2013-08-13 11:39:51', '2013-08-13 17:39:51');
 INSERT INTO Schedules VALUES(3, 25, 10, '2014-08-13 11:39:51', '2014-08-13 17:39:51');
-INSERT INTO Schedules VALUES(4, 5, 1, '2023-08-03 11:39:51', '2023-08-03 17:39:51');
-INSERT INTO Schedules VALUES(5, 7, 1, '2023-08-03 11:39:51', '2023-08-03 17:39:51');
-INSERT INTO Schedules VALUES(6, 7, 1, '2023-08-04 11:39:51', '2023-08-04 17:39:51');
+INSERT INTO Schedules VALUES(4, 5, 13, '2023-08-03 11:39:51', '2023-08-03 17:39:51');
+INSERT INTO Schedules VALUES(5, 7, 13, '2023-08-03 11:39:51', '2023-08-03 17:39:51');
+INSERT INTO Schedules VALUES(6, 7, 13, '2023-08-04 11:39:51', '2023-08-04 17:39:51');
 
 -- Inserting more data 
 INSERT INTO Schedules (scheduleID, personID, facilityID, startTime, endTime) VALUES (7, 25, 10, '2023-08-04 09:00:00', '2023-08-04 17:00:00');
-INSERT INTO Schedules (scheduleID, personID, facilityID, startTime, endTime) VALUES (8, 5, 1, '2023-08-04 09:30:00', '2023-08-04 16:30:00');
+INSERT INTO Schedules (scheduleID, personID, facilityID, startTime, endTime) VALUES (8, 5, 13, '2023-08-04 09:30:00', '2023-08-04 16:30:00');
 INSERT INTO Schedules (scheduleID, personID, facilityID, startTime, endTime) VALUES (9, 25, 10, '2023-08-05 10:00:00', '2023-08-05 18:00:00');
 INSERT INTO Schedules (scheduleID, personID, facilityID, startTime, endTime) VALUES (10, 25, 10, '2023-08-10 07:00:00', '2023-08-10 15:00:00');
 INSERT INTO Schedules (scheduleID, personID, facilityID, startTime, endTime) VALUES (11, 26, 9, '2023-08-12 07:00:00', '2023-08-12 15:00:00');
@@ -222,9 +230,9 @@ INSERT INTO Schedules (scheduleID, personID, facilityID, startTime, endTime) VAL
 INSERT INTO Schedules (scheduleID, personID, facilityID, startTime, endTime) VALUES (14, 26, 9, '2023-08-15 07:00:00', '2023-08-15 15:00:00');
 INSERT INTO Schedules (scheduleID, personID, facilityID, startTime, endTime) VALUES (15, 10, 7, '2023-08-17 07:00:00', '2023-08-17 15:00:00');
 INSERT INTO Schedules (scheduleID, personID, facilityID, startTime, endTime) VALUES (16, 10, 7, '2023-08-20 07:00:00', '2023-08-20 15:00:00');
-INSERT INTO Schedules (scheduleID, personID, facilityID, startTime, endTime) VALUES (17, 5, 1, '2023-08-20 07:00:00', '2023-08-20 15:00:00');
-INSERT INTO Schedules (scheduleID, personID, facilityID, startTime, endTime) VALUES (18, 5, 1, '2023-08-21 10:00:00', '2023-08-20 18:00:00');
-INSERT INTO Schedules (scheduleID, personID, facilityID, startTime, endTime) VALUES (19, 5, 1, '2023-08-25 10:00:00', '2023-08-20 19:00:00');
+INSERT INTO Schedules (scheduleID, personID, facilityID, startTime, endTime) VALUES (17, 5, 13, '2023-08-20 07:00:00', '2023-08-20 15:00:00');
+INSERT INTO Schedules (scheduleID, personID, facilityID, startTime, endTime) VALUES (18, 5, 13, '2023-08-21 10:00:00', '2023-08-20 18:00:00');
+INSERT INTO Schedules (scheduleID, personID, facilityID, startTime, endTime) VALUES (19, 5, 13, '2023-08-25 10:00:00', '2023-08-20 19:00:00');
 INSERT INTO Schedules (scheduleID, personID, facilityID, startTime, endTime) VALUES (20, 10, 7, '2023-08-25 10:30:00', '2023-08-20 15:20:00');
 INSERT INTO Schedules (scheduleID, personID, facilityID, startTime, endTime) VALUES (21, 26, 9, '2023-08-25 10:10:00', '2023-08-20 20:10:00');
 INSERT INTO Schedules (scheduleID, personID, facilityID, startTime, endTime) VALUES (22, 10, 7, '2023-08-26 10:00:00', '2023-08-20 18:00:00');
@@ -240,10 +248,11 @@ INSERT INTO Schedules (scheduleID, personID, facilityID, startTime, endTime) VAL
 INSERT INTO Schedules (scheduleID, personID, facilityID, startTime, endTime) VALUES (28, 27, 1, '2023-08-08 10:00:00', '2023-08-08 18:00:00');
 
 -- for q17
-INSERT INTO Schedules (scheduleID, personID, facilityID, startTime, endTime) VALUES (29, 1, 6, '2023-08-08 07:00:00', '2023-08-08 20:00:00');
-INSERT INTO Schedules (scheduleID, personID, facilityID, startTime, endTime) VALUES (30, 3, 8, '2022-08-08 07:00:00', '2022-08-08 17:00:00');
-
-
+INSERT INTO Schedules (scheduleID, personID, facilityID, startTime, endTime) VALUES (29, 1, 5, '2023-08-08 07:00:00', '2023-08-09 20:00:00');
+INSERT INTO Schedules (scheduleID, personID, facilityID, startTime, endTime) VALUES (30, 3, 5, '2022-08-08 07:00:00', '2022-08-08 17:00:00');
+INSERT INTO Schedules (scheduleID, personID, facilityID, startTime, endTime) VALUES (31, 37, 14, '2023-07-08 07:00:00', '2023-07-08 17:00:00');
+INSERT INTO Schedules (scheduleID, personID, facilityID, startTime, endTime) VALUES (31, 37, 14, '2023-07-09 07:00:00', '2023-07-09 17:00:00');
+INSERT INTO Schedules (scheduleID, personID, facilityID, startTime, endTime) VALUES (31, 37, 14, '2023-07-10 07:00:00', '2023-07-10 17:00:00');
 
 -- EmailContent(emailContentID, emailSubject, emailBody, emailDate)
 
