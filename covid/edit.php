@@ -50,9 +50,9 @@ require_once '../functions.php';
         <label for="<?= $key['data'] ?>"><b><?= $key['data'] ?></b> <?= $value['column']['Type'] ?></label><br/>
         <?php if($value['column']['Type'] == "date") { ?>
           <input type="date" name="<?= $key['data'] ?>" id="<?= $key['data'] ?>" value="<?= $value['data'] ?>" required><br/>
-        <?php } else if(str_contains($value['column']['Type'], "int")) { ?>
+        <?php } else if(strpos($value['column']['Type'], "int") !== FALSE) { ?>
           <input type="number" name="<?= $key['data'] ?>" id="<?= $key['data'] ?>" value="<?= $value['data'] ?>" required><br/>
-        <?php } else if(str_contains($value['column']['Type'], "varchar")) { ?>
+        <?php } else if(strpos($value['column']['Type'], "varchar") !== FALSE) { ?>
           <input type="text" name="<?= $key['data'] ?>" id="<?= $key['data'] ?>" value="<?= $value['data'] ?>" required><br/>
         <?php } ?>
       <?php } ?>

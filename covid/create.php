@@ -38,8 +38,8 @@ require_once '../functions.php';
         <label for="<?= $column['Field'] ?>"><b><?= $column['Field'] ?></b> <?= $column['Type'] ?></label><br/>
         <?php if($column['Type'] == "datetime") { ?>
           <input type="datetime-local" name="<?= $column['Field'] ?>" id="<?= $column['Field'] ?>" required><br/>
-        <?php } else if(str_contains($column['Type'], "int")) { ?>
-          <?php if(str_contains($column['Field'], "ID")) { ?>
+        <?php } else if(strpos($column['Type'], "int") !== FALSE) { ?>
+          <?php if(strpos($column['Field'], "ID") !== FALSE) { ?>
             <?php if ($primKey != TRUE) { ?>
               <label for="<?= $column['Field'] ?>">(Auto-generated)</label><br/>
               <?php $primKey = TRUE; ?>
@@ -55,7 +55,7 @@ require_once '../functions.php';
           <?php } else {?>
             <input type="number" name="<?= $column['Field'] ?>" id="<?= $column['Field'] ?>" required><br/>
           <?php } ?>
-        <?php } else if(str_contains($column['Type'], "varchar")) { ?>
+        <?php } else if(strpos($column['Type'], "varchar") !== FALSE) { ?>
           <input type="text" name="<?= $column['Field'] ?>" id="<?= $column['Field'] ?>" required><br/>
         <?php } ?>
       <?php } ?>
