@@ -71,13 +71,13 @@ INSERT INTO Infections VALUES(19, 2023-08-09, 1, 17);
 INSERT INTO Infections VALUES(20, 2023-08-10, 1, 2);
 
 -- for q12
-INSERT INTO Infections VALUES(21, DATE('2023-08-10'), 1, 1);
-INSERT INTO Infections VALUES(22, DATE('2023-08-10'), 1, 2);
-INSERT INTO Infections VALUES(23, DATE('2023-08-10'), 1, 4);
-INSERT INTO Infections VALUES(24, DATE('2023-08-10'), 1, 10);
-INSERT INTO Infections VALUES(25, DATE('2023-08-11'), 1, 31);
-INSERT INTO Infections VALUES(26, DATE('2023-08-09'), 1, 10);
-INSERT INTO Infections VALUES(27, DATE('2023-08-09'), 1, 31);
+INSERT INTO Infections (DateOfInfection, TypeID, PersonID) VALUES(DATE('2023-08-10'), 1, 1);
+INSERT INTO Infections (DateOfInfection, TypeID, PersonID) VALUES(DATE('2023-08-10'), 1, 2);
+INSERT INTO Infections (DateOfInfection, TypeID, PersonID) VALUES(DATE('2023-08-10'), 1, 4);
+INSERT INTO Infections (DateOfInfection, TypeID, PersonID) VALUES(DATE('2023-08-08'), 1, 10);
+INSERT INTO Infections (DateOfInfection, TypeID, PersonID) VALUES(DATE('2023-08-09'), 1, 10);
+INSERT INTO Infections (DateOfInfection, TypeID, PersonID) VALUES(DATE('2023-08-10'), 1, 10);
+INSERT INTO Infections (DateOfInfection, TypeID, PersonID) VALUES(DATE('2023-08-11'), 1, 10);
 
 -- Vaccinations(VaccinationID, VaccinationDate, DoseNumber, VaccineID [(1, Pfizer), (2, Moderna), (3, AztraZeneca), (4, Johnson & Johnson)], PersonID)--
 INSERT INTO Vaccinations VALUES(1, 2019-04-04, 1, 1, 2);
@@ -153,9 +153,6 @@ INSERT INTO EmployeeRegistrations VALUES(9, 5, '2022-09-18', NULL, 1, 4);
 INSERT INTO EmployeeRegistrations VALUES(10, 7, '2022-11-30', NULL, 1, 5);
 INSERT INTO EmployeeRegistrations VALUES(26, 9, '2023-01-01', NULL, 5, NULL);
 INSERT INTO EmployeeRegistrations VALUES(25, 10, '2023-01-01', NULL, 5, NULL);
-
--- for q12
-INSERT INTO EmployeeRegistrations VALUES(31, 10, '2023-01-01', NULL, 1, NULL);
 
 -- for q9
 INSERT INTO EmployeeRegistrations VALUES(28, 1, DATE('2023-01-01'), NULL, 5, NULL);
