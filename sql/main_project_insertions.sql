@@ -251,8 +251,8 @@ INSERT INTO Schedules (scheduleID, personID, facilityID, startTime, endTime) VAL
 INSERT INTO Schedules (scheduleID, personID, facilityID, startTime, endTime) VALUES (29, 1, 5, '2023-08-08 07:00:00', '2023-08-09 20:00:00');
 INSERT INTO Schedules (scheduleID, personID, facilityID, startTime, endTime) VALUES (30, 3, 5, '2022-08-08 07:00:00', '2022-08-08 17:00:00');
 INSERT INTO Schedules (scheduleID, personID, facilityID, startTime, endTime) VALUES (31, 37, 14, '2023-07-08 07:00:00', '2023-07-08 17:00:00');
-INSERT INTO Schedules (scheduleID, personID, facilityID, startTime, endTime) VALUES (31, 37, 14, '2023-07-09 07:00:00', '2023-07-09 17:00:00');
-INSERT INTO Schedules (scheduleID, personID, facilityID, startTime, endTime) VALUES (31, 37, 14, '2023-07-10 07:00:00', '2023-07-10 17:00:00');
+INSERT INTO Schedules (scheduleID, personID, facilityID, startTime, endTime) VALUES (32, 37, 14, '2023-07-09 07:00:00', '2023-07-09 17:00:00');
+INSERT INTO Schedules (scheduleID, personID, facilityID, startTime, endTime) VALUES (33, 37, 14, '2023-07-10 07:00:00', '2023-07-10 17:00:00');
 
 -- EmailContent(emailContentID, emailSubject, emailBody, emailDate)
 
