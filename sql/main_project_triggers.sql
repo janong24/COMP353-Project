@@ -96,7 +96,7 @@ CREATE TRIGGER ScheduleVaccineCheck
         SET MESSAGE_TEXT = 'Cannot schedule employee without COVID-19 vaccination in the past six months';
      END IF;
 END;
-
+|
 DELIMITER ;
 
 -- Trigger that checks overlapping student registration dates.
@@ -119,7 +119,7 @@ CREATE TRIGGER CheckStudentRegistration
         SET MESSAGE_TEXT = 'A student cannot be registered at more than one facility at the same time';
      END IF;
 END;
-
+|
 DELIMITER ;
 
 -- Trigger that checks overlapping employee registration dates. Same thing as Student registration
@@ -142,5 +142,5 @@ BEGIN
       SET MESSAGE_TEXT = 'An employee cannot be registered at more than one facility at the same time';
    END IF;
 END;
-
+|
 DELIMITER ;
