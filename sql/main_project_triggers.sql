@@ -144,3 +144,65 @@ BEGIN
 END;
 |
 DELIMITER ;
+
+
+
+DELIMITER |
+
+CREATE TRIGGER SendWeeklyEmailSchedule
+AFTER INSERT ON Schedules
+FOR EACH ROW
+BEGIN
+
+   DECLARE startDate DATE;
+   DECLARE endDate DATE;
+   DECLARE emailSubject VARCHAR(255);
+   DECLARE emailBody TEXT;
+   DECLARE facilityName VARCHAR(255);
+   DECLARE facilityAddress VARCHAR(255);
+   DECLARE employeeFirstName VARCHAR(255);
+   DECLARE employeeLastName VARCHAR(255);
+   DECLARE employeeEmail VARCHAR(255);
+   
+   SET startDate = CURDATE() - INTERVAL DAYOFWEEK(CURDATE()) + 2 DAY;
+   SET endDate = startDate + INTERVAL 6 DAY;
+   
+   SELECT Name, Address INTO facilityName, facilityAddress
+   FROM Facilities 
+   WHERE FacilityID = NEW.facilityID;
+
+   SELECT FirstName, LastName, Email INTO employeeFirstName, employeeLastName, employeeEmail
+   FROM Persons 
+   WHERE PersonID = NEW.personID;
+
+   SET emailSubject = CONCAT(facilityName, ' Schedule for ', startDate, ' to ', endDate);
+   SET emailBody = CONCAT(
+      'Facility Name: ', facilityName, '\n',
+      'Facility Address: ', facilityAddress, '\n',
+      'Employee First Name: ', employeeFirstName, '\n',
+      'Employee Last Name: ', employeeLastName, '\n',
+      'Employee Email: ', employeeEmail, '\n\n',
+      'Details of the schedule for the coming week:\n',
+      (SELECT IFNULL(CONCAT('Monday: ', TIME(startTime), ' - ', TIME(endTime)), 'Monday: No Assignment') 
+       FROM Schedules WHERE personID = NEW.personID AND facilityID = NEW.facilityID AND DATE(startTime) = startDate), '\n',
+      (SELECT IFNULL(CONCAT('Tuesday: ', TIME(startTime), ' - ', TIME(endTime)), 'Tuesday: No Assignment') 
+       FROM Schedules WHERE personID = NEW.personID AND facilityID = NEW.facilityID AND DATE(startTime) = startDate + INTERVAL 1 DAY), '\n',
+      (SELECT IFNULL(CONCAT('Wednesday: ', TIME(startTime), ' - ', TIME(endTime)), 'Wednesday: No Assignment') 
+       FROM Schedules WHERE personID = NEW.personID AND facilityID = NEW.facilityID AND DATE(startTime) = startDate + INTERVAL 2 DAY), '\n',
+      (SELECT IFNULL(CONCAT('Thursday: ', TIME(startTime), ' - ', TIME(endTime)), 'Thursday: No Assignment') 
+       FROM Schedules WHERE personID = NEW.personID AND facilityID = NEW.facilityID AND DATE(startTime) = startDate + INTERVAL 3 DAY), '\n',
+      (SELECT IFNULL(CONCAT('Friday: ', TIME(startTime), ' - ', TIME(endTime)), 'Friday: No Assignment') 
+       FROM Schedules WHERE personID = NEW.personID AND facilityID = NEW.facilityID AND DATE(startTime) = startDate + INTERVAL 4 DAY), '\n',
+      (SELECT IFNULL(CONCAT('Saturday: ', TIME(startTime), ' - ', TIME(endTime)), 'Saturday: No Assignment') 
+       FROM Schedules WHERE personID = NEW.personID AND facilityID = NEW.facilityID AND DATE(startTime) = startDate + INTERVAL 5 DAY), '\n',
+      (SELECT IFNULL(CONCAT('Sunday: ', TIME(startTime), ' - ', TIME(endTime)), 'Sunday: No Assignment') 
+       FROM Schedules WHERE personID = NEW.personID AND facilityID = NEW.facilityID AND DATE(startTime) = startDate + INTERVAL 6 DAY)
+   );
+
+   -- Save email to log
+   INSERT INTO EmailContent(emailSubject, emailBody, emailDate) VALUES(emailSubject, LEFT(emailBody, 255), CURDATE());
+   INSERT INTO EmailLogs(emailContentID, facilityID, emailReceiverID) VALUES (LAST_INSERT_ID(), NEW.facilityID, NEW.personID);
+END;
+|
+DELIMITER ;
+
