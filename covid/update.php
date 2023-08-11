@@ -42,7 +42,6 @@ require_once '../functions.php';
 
   //create the DDL statement
   $dml = "UPDATE " . $tableName . " SET " . $colValsWithCommas . " WHERE " . $columnNames[0] . " = " . $primaryKey . ";";
-  print_r($dml);
   $query = $conn->prepare($dml);
 
   //execute the query
